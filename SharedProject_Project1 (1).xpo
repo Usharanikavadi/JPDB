@@ -1,0 +1,3654 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: TRI_DimensionHelper unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #TRI_DimensionHelper
+    PROPERTIES
+      Name                #TRI_DimensionHelper
+      Origin              #{66549629-E186-4B5C-B51C-FE669192259D}
+    ENDPROPERTIES
+    
+    METHODS
+      SOURCE #classDeclaration
+        #/// <summary>
+        #/// The <c>TRI_DimensionHelper</c> class is used to centralize all Fin Dimension use for TeamIndustrial.
+        #/// Any code that use Dimension Branches or ServiceLine should use this class methods
+        #/// Please feel free to add new mwthods to this class
+        #/// Feel free to use any method from this class
+        #/// But also save a comments where do you use this class
+        #/// </summary>
+        #class TRI_DimensionHelper
+        #{
+        #    //TRI_DimensionRefactoring, vam, 26-Nov-2014
+        #
+        #//Here is a list of affected projects:
+        #// TRI_031_ProjMultiServLineQuote_20140513 - kik - 5/19/2014
+        #// TRI_059 Extended Project Sales Price, vam, 15-Sept-2014
+        #// TRI_053_ExternalProjectCategoryDescription FEK
+        #// TRI_006_ContractVolumeDiscounts, X3, X3 date
+        #// TRI_023_NewProjectCreation_20142404 - kik- 5/6/2014
+        #//TRI_047_RoyaltyAndCommissionReport
+        #// AVA tax Engine
+        #//TRI_008_CERFormsModification_FEK 07/04/2014
+        #
+        #}
+      ENDSOURCE
+      SOURCE #getBusinessGroupDefaultDimension
+        #// CHG0038328 Added byTeresa Crawford
+        #// to capture new financial dimension value
+        #
+        #
+        #public DimensionValue getBusinessGroupDefaultDimension(RecId defaultDimension, Name dimName)
+        #{
+        #    DefaultDimensionView defDimensionView;
+        #
+        #
+        #    select DisplayValue from defDimensionView
+        #    where defDimensionView.DefaultDimension==defaultDimension
+        #    && defDimensionView.Name==dimName;
+        #
+        #    return defDimensionView.DisplayValue;
+        #}
+      ENDSOURCE
+      SOURCE #getDepartmentDefaultDimension
+        #// Added byTeresa Crawford
+        #// to capture new financial dimension value
+        #// TIS_CHG0032300_DR455a_FDKeyServiceType
+        #
+        #public DimensionValue getDepartmentDefaultDimension(RecId defaultDimension, Name dimName)
+        #{
+        #    DefaultDimensionView defDimensionView;
+        #
+        #
+        #    select DisplayValue from defDimensionView
+        #    where defDimensionView.DefaultDimension==defaultDimension
+        #    && defDimensionView.Name==dimName;
+        #
+        #    return defDimensionView.DisplayValue;
+        #}
+      ENDSOURCE
+      SOURCE #getKeyDefaultDimension
+        #// Added by Maruthi, Aarolla
+        #// to capture new financial dimension value
+        #// TIS_CHG0032300_DR455a_FDKeyServiceType
+        #
+        #public DimensionValue getKeyDefaultDimension(RecId defaultDimension, Name dimName)
+        #{
+        #    DefaultDimensionView defDimensionView;
+        #
+        #    select DisplayValue from defDimensionView
+        #    where defDimensionView.DefaultDimension==defaultDimension
+        #    && defDimensionView.Name==dimName;
+        #
+        #    return defDimensionView.DisplayValue;
+        #}
+      ENDSOURCE
+      SOURCE #getNewBusinessGroupDefaultDimension
+        #// CHG0038328 Added by Teresa Crawford
+        #// to capture new financial dimension value
+        #//
+        #
+        #public RecId getNewBusinessGroupDefaultDimension(RecId defaultDimension, Name dimName, str 255 dimValue)
+        #{
+        #    DimensionAttributeValueSetStorage dimStorage;
+        #    DimensionAttribute dimAttributeDepartment;
+        #    DimensionAttributeValue dimAttributeValue;
+        #    dimStorage = DimensionAttributeValueSetStorage::find(defaultDimension);
+        #    dimAttributeDepartment = DimensionAttribute::findByName(dimName);
+        #    if(dimValue)
+        #    {
+        #         dimAttributeValue = DimensionAttributeValue::findByDimensionAttributeAndValue(dimAttributeDepartment, dimValue, true, true);
+        #         dimStorage.addItem(dimAttributeValue);
+        #    }
+        #    else
+        #        dimStorage.removeDimensionAttribute(DimensionAttribute::findByName(dimName).RecId);
+        #    return dimStorage.save();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getNewDepartmentDefaultDimension
+        #// Added by Teresa Crawford
+        #// to capture new financial dimension value
+        #//
+        #
+        #public RecId getNewDepartmentDefaultDimension(RecId defaultDimension, Name dimName, str 255 dimValue)
+        #{
+        #    DimensionAttributeValueSetStorage dimStorage;
+        #    DimensionAttribute dimAttributeDepartment;
+        #    DimensionAttributeValue dimAttributeValue;
+        #    dimStorage = DimensionAttributeValueSetStorage::find(defaultDimension);
+        #    dimAttributeDepartment = DimensionAttribute::findByName(dimName);
+        #    if(dimValue)
+        #    {
+        #         dimAttributeValue = DimensionAttributeValue::findByDimensionAttributeAndValue(dimAttributeDepartment, dimValue, true, true);
+        #         dimStorage.addItem(dimAttributeValue);
+        #    }
+        #    else
+        #        dimStorage.removeDimensionAttribute(DimensionAttribute::findByName(dimName).RecId);
+        #    return dimStorage.save();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getNewKeyDefaultDimension
+        #// Added by Maruthi, Aarolla
+        #// to capture new financial dimension value
+        #// TIS_CHG0032300_DR455a_FDKeyServiceType
+        #
+        #public RecId getNewKeyDefaultDimension(RecId defaultDimension, Name dimName, str 255 dimValue)
+        #{
+        #    DimensionAttributeValueSetStorage dimStorage;
+        #
+        #    DimensionAttribute dimAttributeDepartment;
+        #    DimensionAttributeValue dimAttributeValue;
+        #
+        #
+        #    dimStorage = DimensionAttributeValueSetStorage::find(defaultDimension);
+        #    dimAttributeDepartment = DimensionAttribute::findByName(dimName);
+        #    if(dimValue)
+        #    {
+        #        dimAttributeValue = DimensionAttributeValue::findByDimensionAttributeAndValue(dimAttributeDepartment, dimValue, true, true);
+        #        dimStorage.addItem(dimAttributeValue);
+        #    }
+        #    else
+        #        dimStorage.removeDimensionAttribute(DimensionAttribute::findByName(dimName).RecId);
+        #    return dimStorage.save();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getNewLedgerDimension
+        #// Added by Maruthi, Aarolla
+        #// to capture new financial dimension value
+        #// TIS_CHG0032300_DR455a_FDKeyServiceType
+        #public RecId getNewLedgerDimension(RecId ledgerDimension, Name dimName, str 255 dimValue)
+        #{
+        #    DimensionStorage dimensionStorage;
+        #    DimensionAttribute dimensionAttribute;
+        #    DimensionAttributeValue newDimensionValue;
+        #
+        #    // Find the deparment dimension attribute
+        #    dimensionAttribute = DimensionAttribute::findByName(dimName);
+        #
+        #    // Find the new department value we want to put in the new combination.
+        #    newDimensionValue = DimensionAttributeValue::findByDimensionAttributeAndValue(dimensionAttribute, dimValue, true, true);
+        #
+        #    // Load a DimensionStorage instance with the old combination and update the first segment with new value
+        #    dimensionStorage = DimensionStorage::findById(ledgerDimension);
+        #    dimensionStorage.setSegment(1,DimensionStorageSegment::constructFromValue(dimValue, newDimensionValue));
+        #    return dimensionStorage.save();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getBusinessGroupDim
+        #// CHG0038328 Added by Teresa Crawford 05/12/2021
+        #// get Business Group financial Dimension from TISI Parameters
+        #// Geenral ledger/Setup/Financial dimensions/TISI Parameters
+        #//
+        #
+        #static public DimensionAttributeRecId getBusinessGroupDim()
+        #{
+        #    return TRI_TISI_SpecificParameters::find().TIS_BusinessGroup;
+        #}
+      ENDSOURCE
+      SOURCE #getDeparttmentDim
+        #// Added by Teresa Crawford
+        #// get KeyServiceType financial Dimension from TISI Parameters
+        #// Geenral ledger/Setup/Financial dimensions/TISI Parameters
+        #//
+        #
+        #static public DimensionAttributeRecId getDeparttmentDim()
+        #{
+        #    return TRI_TISI_SpecificParameters::find().TIS_Department;
+        #}
+      ENDSOURCE
+      SOURCE #getDimensionValue
+        #static DimensionValue getDimensionValue(RecId defaultDimension, Name dimName)
+        #{
+        #    DimensionAttributeValueSetStorage   dimStorage;
+        #
+        #    dimStorage = DimensionAttributeValueSetStorage::find(defaultDimension);
+        #    return dimStorage.getDisplayValueByDimensionAttribute(DimensionAttribute::findByName(dimName).RecId);
+        #}
+      ENDSOURCE
+      SOURCE #getDimensionValuesTRI_Branch
+        #/// <summary>
+        #/// Returns a list of financial dimension values for a TRI_Branch dimension
+        #/// </summary>
+        #/// <returns>
+        #/// A list of <c>DimensionValueContract</c> objects.
+        #/// </returns>
+        #/// <remarks>
+        #/// Exceptions are thrown if the dimension does not exist.
+        #/// </remarks>
+        #public static List getDimensionValuesTRI_Branch()
+        #{
+        #    DimensionContract       dimContract;
+        #    DimensionValueService   dimValueService;
+        #    List                    dimValueList;
+        #    //DimensionValueContract  dimValue;
+        #    //Enumerator              en;
+        #
+        #    dimContract = new DimensionContract();
+        #    dimContract.parmDimensionName(TRI_DimensionHelper::getTRI_DimNameBranch());
+        #//    dimContract.parmDimensionName(TRI_DimensionHelper::getTRI_DimNameServiceLine());
+        #
+        #    dimValueService = new DimensionValueService();
+        #
+        #    dimValueList = dimValueService.getDimensionValues(dimContract);
+        #
+        #    return dimValueList;
+        #
+        #    /* Here is example how to use it */
+        #    //en = dimValueList.getEnumerator();
+        #    //while(en.moveNext())
+        #    //{
+        #    //    dimValue = en.current();
+        #    //    info(strFmt("%1 || %2"
+        #    //        ,dimValue.parmValue()
+        #    //        ,dimValue.parmDescription()
+        #    //        ));
+        #    //}
+        #
+        #}
+      ENDSOURCE
+      SOURCE #getDimensionValuesTRI_ServiceLine
+        #/// <summary>
+        #/// Returns a list of financial dimension values for a TRI_ServiceLine dimension
+        #/// </summary>
+        #/// <returns>
+        #/// A list of <c>DimensionValueContract</c> objects.
+        #/// </returns>
+        #/// <remarks>
+        #/// Exceptions are thrown if the dimension does not exist.
+        #/// </remarks>
+        #public static List getDimensionValuesTRI_ServiceLine()
+        #{
+        #    DimensionContract       dimContract;
+        #    DimensionValueService   dimValueService;
+        #    List                    dimValueList;
+        #    //DimensionValueContract  dimValue;
+        #    //Enumerator              en;
+        #
+        #    dimContract = new DimensionContract();
+        #//    dimContract.parmDimensionName(TRI_DimensionHelper::getTRI_DimNameBranch());
+        #    dimContract.parmDimensionName(TRI_DimensionHelper::getTRI_DimNameServiceLine());
+        #
+        #    dimValueService = new DimensionValueService();
+        #
+        #    dimValueList = dimValueService.getDimensionValues(dimContract);
+        #
+        #    return dimValueList;
+        #
+        #    /* Here is example how to use it */
+        #    //en = dimValueList.getEnumerator();
+        #    //while(en.moveNext())
+        #    //{
+        #    //    dimValue = en.current();
+        #    //    info(strFmt("%1 || %2"
+        #    //        ,dimValue.parmValue()
+        #    //        ,dimValue.parmDescription()
+        #    //        ));
+        #    //}
+        #
+        #}
+      ENDSOURCE
+      SOURCE #getKeyServiceTypeDim
+        #// Added by Maruthi, Aarolla
+        #// get KeyServiceType financial Dimension from TISI Parameters
+        #// Geenral ledger/Setup/Financial dimensions/TISI Parameters
+        #// TIS_CHG0032300_DR455a_FDKeyServiceType
+        #
+        #static public DimensionAttributeRecId getKeyServiceTypeDim()
+        #{
+        #    return TRI_TISI_SpecificParameters::find().TIS_KeyServiceType;
+        #}
+      ENDSOURCE
+      SOURCE #getNewDefaultDimension
+        #static RecId getNewDefaultDimension(RecId defaultDimension, str dimValue, Name dimName)
+        #{
+        #    DimensionAttributeValueSetStorage  dimStorage;
+        #    DimensionAttribute         dimAttributeCostCenter;
+        #    DimensionAttributeValue       dimAttributeValue;
+        #    dimStorage = DimensionAttributeValueSetStorage::find(defaultDimension);
+        #    dimAttributeCostCenter = DimensionAttribute::findByName(dimName);
+        #
+        #    if (dimValue)
+        #    {
+        #        dimAttributeValue = DimensionAttributeValue::findByDimensionAttributeAndValue(dimAttributeCostCenter, dimValue, true, true);
+        #        dimStorage.addItem(dimAttributeValue);
+        #    }
+        #    else
+        #    {
+        #        dimStorage.removeDimensionAttribute(DimensionAttribute::findByName(dimName).RecId);
+        #    }
+        #
+        #    return dimStorage.save();
+        #}
+      ENDSOURCE
+      SOURCE #getTIS_DimAttriBusinessGroup
+        #// CHG0038353 Added by Crawford, Teresa 5/18/2021
+        #//description
+        #static public DimensionAttributeRecId getTIS_DimAttriBusinessGroup()
+        #{
+        #    return TRI_TISI_SpecificParameters::find().TIS_BusinessGroup;
+        #}
+      ENDSOURCE
+      SOURCE #getTIS_DimBusinessGroup
+        #// CHG0038328 Added by Crawford, Teresa 5/12/2021
+        #//description
+        #static public DimensionAttributeRecId getTIS_DimBusinessGroup()
+        #{
+        #    return TRI_TISI_SpecificParameters::find().TIS_BusinessGroup;
+        #}
+      ENDSOURCE
+      SOURCE #getTIS_DimBusinessGroupName
+        #// CHG0038353 Added by Crawford, Teresa 5/19/2021
+        #//description
+        #public static Name getTIS_DimBusinessGroupName()
+        #{
+        #    return DimensionAttribute::find(TRI_DimensionHelper::getTIS_DimAttriBusinessGroup()).Name;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getTIS_DimValueBusinessGroup
+        #// CHG0038353 Added by Crawford, Teresa 5/18/2021
+        #//description
+        #static public TIS_PriceGroupDiscBusinessGroupDim getTIS_DimValueBusinessGroup(RecId _defaultDimension)
+        #{
+        #    DimensionAttributeValueSetStorage   dimStorage;
+        #    RecId                               businessGroup_DimAttr;
+        #
+        #    businessGroup_DimAttr = TRI_DimensionHelper::getTIS_DimAttriBusinessGroup();
+        #
+        #    if(businessGroup_DimAttr)
+        #    {
+        #        dimStorage = DimensionAttributeValueSetStorage::find(_defaultDimension);
+        #        return dimStorage.getDisplayValueByDimensionAttribute(businessGroup_DimAttr);
+        #    }
+        #    else
+        #    {
+        #        return "";
+        #    }
+        #
+        #}
+      ENDSOURCE
+      SOURCE #getTRI_DimAttrBranch
+        #static public DimensionAttributeRecId getTRI_DimAttrBranch()
+        #{
+        #    return TRI_TISI_SpecificParameters::find().TRI_Branch;
+        #}
+      ENDSOURCE
+      SOURCE #getTRI_DimAttrServiceLine
+        #static public DimensionAttributeRecId getTRI_DimAttrServiceLine()
+        #{
+        #    return TRI_TISI_SpecificParameters::find().TRI_ServiceLine;
+        #}
+      ENDSOURCE
+      SOURCE #getTRI_DimAttrServiceLineGroup
+        #/// <summary>
+        #/// Returns the DimensionAttributeRecId of financial dimension values for a TRI_ServiceLineGroup dimension
+        #/// </summary>
+        #/// <returns>
+        #/// RecId of <c>TRI_ServiceLineGroup</c> objects.
+        #/// </returns>
+        #static public DimensionAttributeRecId getTRI_DimAttrServiceLineGroup()
+        #{
+        #    return TRI_TISI_SpecificParameters::find().TRI_ServiceLineGroup;
+        #}
+      ENDSOURCE
+      SOURCE #getTRI_DimNameBranch
+        #public static TRI_PriceGroupDiscBranchDim getTRI_DimNameBranch()
+        #{
+        #    // TRI_059 Extended Project Sales Price, vam, 15-Sept-2014
+        #    //return ProjParameters::find().TRI_PriceGroupDiscBranchDim;
+        #    return DimensionAttribute::find(TRI_DimensionHelper::getTRI_DimAttrBranch()).Name;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getTRI_DimNameServiceLine
+        #public static TRI_PriceGroupDiscServiceLineDim getTRI_DimNameServiceLine()
+        #{
+        #    // TRI_059 Extended Project Sales Price, vam, 15-Sept-2014
+        #    //return ProjParameters::find().TRI_PriceGroupDiscServiceLineDim;
+        #    return DimensionAttribute::find(TRI_DimensionHelper::getTRI_DimAttrServiceLine()).Name;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getTRI_DimNameServiceLineGroup
+        #//Added for Cr211 - Gf 4-27-2016
+        #public static TRI_PriceGroupDiscServiceLineDim getTRI_DimNameServiceLineGroup()
+        #{
+        #    return DimensionAttribute::find(TRI_DimensionHelper::getTRI_DimAttrServiceLineGroup()).Name;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getTRI_DimValueBranchFromDefaultDim
+        #static public TRI_PriceGroupDiscBranchDim getTRI_DimValueBranchFromDefaultDim(RecId _defaultDimension)
+        #{
+        #    DimensionAttributeValueSetStorage   dimStorage;
+        #    RecId                               TRI_Branch_DimAttr;
+        #
+        #    TRI_Branch_DimAttr = TRI_DimensionHelper::getTRI_DimAttrBranch();
+        #
+        #    if(TRI_Branch_DimAttr)
+        #    {
+        #        dimStorage = DimensionAttributeValueSetStorage::find(_defaultDimension);
+        #        return dimStorage.getDisplayValueByDimensionAttribute(TRI_Branch_DimAttr);
+        #    }
+        #    else
+        #    {
+        #        return "";
+        #    }
+        #
+        #}
+      ENDSOURCE
+      SOURCE #getTRI_DimValueServiceLineFromDefaultDim
+        #static public TRI_PriceGroupDiscServiceLineDim getTRI_DimValueServiceLineFromDefaultDim(RecId _defaultDimension)
+        #{
+        #    DimensionAttributeValueSetStorage   dimStorage;
+        #    RecId                               TRI_ServiceLine_DimAttr;
+        #
+        #    TRI_ServiceLine_DimAttr = TRI_DimensionHelper::getTRI_DimAttrServiceLine();
+        #
+        #    if(TRI_ServiceLine_DimAttr)
+        #    {
+        #        dimStorage = DimensionAttributeValueSetStorage::find(_defaultDimension);
+        #        return dimStorage.getDisplayValueByDimensionAttribute(TRI_ServiceLine_DimAttr);
+        #    }
+        #    else
+        #    {
+        #        return "";
+        #    }
+        #
+        #}
+      ENDSOURCE
+      SOURCE #getTRI_DimValueSvcLineGrpFromDefaultDim
+        #static public TRI_PriceGroupDiscServiceLineDim getTRI_DimValueSvcLineGrpFromDefaultDim(RecId _defaultDimension)
+        #{
+        #    DimensionAttributeValueSetStorage   dimStorage;
+        #    RecId                               TRI_SvcLineGrp_DimAttr;
+        #
+        #    TRI_SvcLineGrp_DimAttr = TRI_DimensionHelper::getTRI_DimAttrServiceLineGroup();
+        #
+        #    if(TRI_SvcLineGrp_DimAttr)
+        #    {
+        #        dimStorage = DimensionAttributeValueSetStorage::find(_defaultDimension);
+        #        return dimStorage.getDisplayValueByDimensionAttribute(TRI_SvcLineGrp_DimAttr);
+        #    }
+        #    else
+        #    {
+        #        return "";
+        #    }
+        #
+        #}
+      ENDSOURCE
+      SOURCE #lookupBranch
+        #// TRI_059 Extended Project Sales Price, vam, 16-Sept-2014
+        #public static void lookupBranch(FormControl _formControl, str _filterStr = '')
+        #{
+        #/*
+        #    //    super(_formControl, _filterStr);
+        #    SysTableLookup          sysTableLookup;
+        #    QueryBuildDataSource    queryBuildDataSource,queryBuildDataSource1;
+        #    Query                   query;
+        #    QueryBuildRange         queryRangePhysical,queryRangeTechnical;
+        #    DimensionAttribute      dimAttr;
+        #
+        #    select firstonly recid from dimAttr where dimAttr.Name == TRI_DimensionHelper::getTRI_DimNameBranch(); //ProjParameters::find().TRI_PriceGroupDiscBranchDim;
+        #    if (dimAttr)
+        #    {
+        #        sysTableLookup = SysTableLookup::newParameters(tablenum(DimensionFinancialTag), _formControl);
+        #
+        #        sysTableLookup.addLookupfield(fieldnum(DimensionFinancialTag, value),true);
+        #        sysTableLookup.addLookupfield(fieldnum(DimensionFinancialTag, Description),false);
+        #        query = new Query();
+        #
+        #        queryBuildDataSource = query.addDataSource(tablenum(DimensionFinancialTag));
+        #        queryBuildDataSource1 = queryBuildDataSource.addDataSource(tableNum(DimensionAttributeDirCategory));
+        #        queryBuildDataSource1.relations(true);
+        #        queryBuildDataSource1.joinMode(JoinMode::InnerJoin);
+        #        queryBuildDataSource1.addLink(fieldnum(DimensionFinancialTag, FinancialTagCategory), fieldnum(DimensionAttributeDirCategory, DirCategory));
+        #
+        #        queryBuildDataSource1.addRange(fieldnum(DimensionAttributeDirCategory,DimensionAttribute)).value(queryValue(dimAttr.RecId));
+        #        sysTableLookup.parmQuery(query);
+        #
+        #        sysTableLookup.performFormLookup();
+        #    }
+        #    */
+        #    /*
+        #    // If a custom entity, restrict the list of custom values to only those for that specific custom entity
+        #    if (dimAttr.Type == DimensionAttributeType::CustomList)
+        #    {
+        #        this.query().dataSourceTable(tableNum(DimensionFinancialTag)).addRange(fieldNum(DimensionFinancialTag, FinancialTagCategory)).value(queryValue(dimAttr.financialTagCategory()));
+        #    }
+        #
+        #    // Sort lookup on values column
+        #    this.query().dataSourceTable(dimAttr.BackingEntityType).addSortField(dimAttr.ValueAttribute);
+        #    */
+        #
+        #    TRI_DimensionHelper::lookupDimAttrValue(_formControl, _filterStr, TRI_DimensionHelper::getTRI_DimAttrBranch() );
+        #
+        #}
+      ENDSOURCE
+      SOURCE #lookupBusinessGroup
+        #// CHG0038328 Added by Crawford, Teresa 5/12/2021
+        #//description
+        #public static void lookupBusinessGroup(FormControl  _formControl, str _filterStr='')
+        #{
+        #
+        #    TRI_DimensionHelper::lookupDimAttrValue(_formControl, _filterStr, TRI_DimensionHelper::getTIS_DimBusinessGroup());
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #lookupDimAttrValue
+        #/// <summary>
+        #///   Lookups for a dimension attribute value.
+        #///   Copy paste from \Data Dictionary\Tables\LedgerRRGDimensionInterval_RU\Methods\lookupDimAttrValue
+        #/// </summary>
+        #/// <param name="_formControl">
+        #///  A lookup control.
+        #/// </param>
+        #/// <param name="_filterStr">
+        #///   A filter string.
+        #/// </param>
+        #/// <param name="_dimAttrId">
+        #///   A dimension attribute.
+        #/// </param>
+        #public static void lookupDimAttrValue(FormControl _formControl, str _filterStr, RecId _dimAttrId)
+        #{
+        #    Args                    e;
+        #    FormRun                 lookupFormRun;
+        #    DimensionAttribute      dimAttr;
+        #    //Object                  object;
+        #    FormStringControl       formStringControl;
+        #
+        #    formStringControl = _formControl as FormStringControl;
+        #
+        #    // Construct arguments for the custom lookup
+        #    e = new Args();
+        #    e.name(formStr(DimensionDefaultingLookup));
+        #    e.lookupValue(_filterStr);
+        #    e.caller(_formControl);
+        #
+        #    // Find the dimension attribute associated with the string control which called this method
+        #    dimAttr = DimensionAttribute::find(_dimAttrId);
+        #    e.lookupField(dimAttr.ValueAttribute);
+        #    e.record(dimAttr);
+        #
+        #    // Run the custom lookup and init the lookup form
+        #    lookupFormRun = classfactory.formRunClass(e);
+        #
+        #    lookupFormRun.init();
+        #
+        #    // Specify this is the callback on the lookup form by casting the
+        #    // form to an object and late binding the setResultCallback method
+        #    //if (SysFormRun::hasMethod(lookupFormRun, identifierStr(setResultCallback)))
+        #    //{
+        #    //    object = lookupFormRun;
+        #    //    object.setResultCallback(_formControl);
+        #    //}
+        #
+        #    // Do the lookup
+        #    formStringControl.performFormLookup(lookupFormRun);
+        #}
+      ENDSOURCE
+      SOURCE #lookupServiceLine
+        #// TRI_059 Extended Project Sales Price, vam, 16-Sept-2014
+        #public static void lookupServiceLine(FormControl  _formControl, str _filterStr='')
+        #{
+        #/*
+        #//    super(_formControl, _filterStr);
+        #    SysTableLookup          sysTableLookup;
+        #    QueryBuildDataSource    queryBuildDataSource,queryBuildDataSource1;
+        #    Query                   query;
+        #    QueryBuildRange         queryRangePhysical,queryRangeTechnical;
+        #    DimensionAttribute      dimAttr;
+        #    DimensionAttributeLevelValueAllView dimAttrView; //View that will display all values for ledger dimensions
+        #
+        #    //select firstonly recid from dimAttr where dimAttr.Name == TRI_DimensionHelper::getTRI_DimNameServiceLine(); //ProjParameters::find().TRI_PriceGroupDiscServiceLineDim;
+        #
+        #    dimAttr = DimensionAttribute::find( TRI_DimensionHelper::getTRI_DimAttrServiceLine() );
+        #    if (dimAttr)
+        #    {
+        #        sysTableLookup = SysTableLookup::newParameters(tablenum(DimensionAttributeLevelValueAllView), _formControl);
+        #
+        #        sysTableLookup.addLookupfield(fieldnum(DimensionAttributeLevelValueAllView, DisplayValue),true);
+        #        //sysTableLookup.addLookupfield(fieldnum(dimAttrView, Description),false);
+        #        query = new Query();
+        #
+        #        sysTableLookup.
+        #
+        #        queryBuildDataSource = query.addDataSource(tablenum(DimensionAttributeLevelValueAllView));
+        #        queryBuildDataSource.addRange(fieldnum(DimensionAttributeLevelValueAllView,DimensionAttribute)).value(queryValue(dimAttr.RecId));
+        #        //queryBuildDataSource1 = queryBuildDataSource.addDataSource(tableNum(DimensionAttributeDirCategory));
+        #        //queryBuildDataSource1.relations(true);
+        #        //queryBuildDataSource1.joinMode(JoinMode::InnerJoin);
+        #        //queryBuildDataSource1.addLink(fieldnum(DimensionFinancialTag, FinancialTagCategory), fieldnum(DimensionAttributeDirCategory, DirCategory));
+        #
+        #        //queryBuildDataSource1.addRange(fieldnum(DimensionAttributeDirCategory,DimensionAttribute)).value(queryValue(dimAttr.RecId));
+        #        sysTableLookup.parmQuery(query);
+        #
+        #        sysTableLookup.performFormLookup();
+        #    }
+        #*/
+        #    TRI_DimensionHelper::lookupDimAttrValue(_formControl, _filterStr, TRI_DimensionHelper::getTRI_DimAttrServiceLine() );
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #lookupServiceLineGroup
+        #/// <summary>
+        #/// Lookups for a dimension attribute value.
+        #/// </summary>
+        #/// <param name="_formControl">
+        #/// A lookup control.
+        #/// </param>
+        #/// <param name="_filterStr">
+        #/// A filter string.
+        #/// </param>
+        #public static void lookupServiceLineGroup(FormControl  _formControl, str _filterStr='')
+        #{
+        #    TRI_DimensionHelper::lookupDimAttrValue(_formControl, _filterStr, TRI_DimensionHelper::getTRI_DimAttrServiceLineGroup() );
+        #}
+      ENDSOURCE
+      SOURCE #makeTRI_PriceKey
+        #/// <summary>
+        #///     Composes a string key based of the passed values.
+        #/// </summary>
+        #/// <param name="_TRI_DimensionBranch">Branch dimension value</param>
+        #/// <param name="_TRI_DimensionServiceLine">ServiceLine dimension value</param>
+        #/// <param name="_TRI_Location">Location recId</param>
+        #/// <param name="_TRI_ProjPriceGroupContractId">Price Group Contract Id</param>
+        #/// <returns>String unique key</returns>
+        #public static TRI_PriceKey makeTRI_PriceKey(
+        #                         DimensionValue                   _TRI_DimensionBranch,
+        #                         DimensionValue                   _TRI_DimensionServiceLine,
+        #                         LogisticsPostalAddressRecId      _TRI_Location,
+        #                         TRI_ProjPriceGroupContractId     _TRI_ProjPriceGroupContractId
+        #
+        #                         )
+        #
+        #{
+        #// TRI_059 ExtendedSalesPrice, vam, 04-Sept-2014
+        #
+        #    TRI_PriceKey        key;
+        #
+        #    //Do not use strfmt as it is faster to perform string concat when executing in IL.
+        #    key += _TRI_DimensionBranch;
+        #    key += '-';
+        #    key += _TRI_DimensionServiceLine;
+        #    key += '-';
+        #    key += int642str(_TRI_Location);
+        #    key += '-';
+        #    key += _TRI_ProjPriceGroupContractId;
+        #
+        #    return key;
+        #}
+      ENDSOURCE
+      SOURCE #TIS_getDimNameBusinessGroup
+        #/// <summary>
+        #/// Used to retrieve the business group name
+        #/// </summary>
+        #/// <returns>
+        #/// Business Group Name
+        #/// </returns>
+        #/// <remarks>
+        #/// CHG0038353 Added by Teresa Crawford 05/12/2021
+        #/// </remarks>
+        #public static TRI_PriceGroupDiscServiceLineDim TIS_getDimNameBusinessGroup()
+        #{
+        #    return DimensionAttribute::find(TRI_DimensionHelper::getTIS_DimBusinessGroup()).Name;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #validateDimensionBranch
+        #public static boolean validateDimensionBranch(DimensionValue  _TRI_Branch)
+        #{
+        # /*   // TRI_059 Extended Project Sales Price, vam, 15-Sept-2014
+        #    boolean                         ret = false;
+        #    DimensionAttribute              dimAttr;
+        #    DimensionFinancialTag           dimFinAttr;
+        #    DimensionAttributeDirCategory   dimCategory;
+        #
+        #    return true;
+        #
+        #    if(_TRI_Branch)
+        #    {
+        #        select firstonly recid from dimAttr
+        #            where dimAttr.Name == TRI_DimensionHelper::getTRI_DimNameBranch();
+        #
+        #        if(dimAttr)
+        #        {
+        #            select firstonly recid from dimFinAttr
+        #                exists join dimCategory
+        #                where dimFinAttr.Value                == _TRI_Branch
+        #                   && dimFinAttr.FinancialTagCategory == dimCategory.DirCategory
+        #                   && dimCategory.DimensionAttribute  == dimAttr.RecId;
+        #
+        #            ret =  (dimFinAttr.RecId);
+        #        }
+        #    }
+        #    else
+        #    {
+        #        ret = true; //empty value is ok
+        #    }
+        #
+        #    return ret;
+        # */
+        #    boolean                     ret = true;
+        #    DimensionAttributeValue     dimAttrVal;
+        #    DimensionAttribute          dimAttr = DimensionAttribute::find( TRI_DimensionHelper::getTRI_DimAttrBranch() );
+        #
+        #    if(_TRI_Branch)
+        #    {
+        #        dimAttrVal = DimensionAttributeValue::findByDimensionAttributeAndValue(dimAttr, _TRI_Branch);
+        #        ret = (dimAttrVal.CachedDisplayValue == _TRI_Branch); //RecId = 0 if DimValue is not in DimensionAttributeValue, but CashedDisplayValue is filled by right way!
+        #    }
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #validateDimensionBusinessGroup
+        #// CHG0038353 Added by Crawford, Teresa 5/17/2021
+        #//description
+        #public static boolean validateDimensionBusinessGroup(DimensionValue  _BusinessGroup)
+        #{
+        #    boolean                     ret = true;
+        #    DimensionAttributeValue     dimAttrVal;
+        #    DimensionAttribute          dimAttr = DimensionAttribute::find( TRI_DimensionHelper::getTIS_DimBusinessGroup() );
+        #
+        #    if(_BusinessGroup)
+        #    {
+        #        dimAttrVal = DimensionAttributeValue::findByDimensionAttributeAndValue(dimAttr, _BusinessGroup);
+        #        ret = (dimAttrVal.CachedDisplayValue == _BusinessGroup); //RecId = 0 if DimValue is not in DimensionAttributeValue, but CashedDisplayValue is filled by right way!
+        #    }
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #validateDimensionServiceLine
+        #public static boolean validateDimensionServiceLine(DimensionValue  _TRI_ServiceLine)
+        #{
+        #/*    // TRI_059 Extended Project Sales Price, vam, 15-Sept-2014
+        #    boolean                         ret = false;
+        #    DimensionAttribute              dimAttr;
+        #    DimensionFinancialTag           dimFinAttr;
+        #    DimensionAttributeDirCategory   dimCategory;
+        #
+        #    return true;
+        #
+        #    if(_TRI_ServiceLine)
+        #    {
+        #        select firstonly recid from dimAttr
+        #            where dimAttr.Name == TRI_DimensionHelper::getTRI_DimNameServiceLine();
+        #
+        #        if(dimAttr)
+        #        {
+        #            select firstonly recid from dimFinAttr
+        #                exists join dimCategory
+        #                where dimFinAttr.Value                == _TRI_ServiceLine
+        #                   && dimFinAttr.FinancialTagCategory == dimCategory.DirCategory
+        #                   && dimCategory.DimensionAttribute  == dimAttr.RecId;
+        #
+        #            ret =  (dimFinAttr.RecId);
+        #        }
+        #    }
+        #    else
+        #    {
+        #        ret = true; //empty value is ok
+        #    }
+        #
+        #    return ret;
+        #*/
+        #    boolean                     ret = true;
+        #    DimensionAttributeValue     dimAttrVal;
+        #    DimensionAttribute          dimAttr = DimensionAttribute::find( TRI_DimensionHelper::getTRI_DimAttrServiceLine() );
+        #
+        #    if(_TRI_ServiceLine)
+        #    {
+        #        dimAttrVal = DimensionAttributeValue::findByDimensionAttributeAndValue(dimAttr, _TRI_ServiceLine);
+        #        ret = (dimAttrVal.CachedDisplayValue == _TRI_ServiceLine); //RecId = 0 if DimValue is not in DimensionAttributeValue, but CashedDisplayValue is filled by right way!
+        #    }
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #validateDimensionServiceLineGroup
+        #/// <summary>
+        #/// Validate the dimensionvalue for its corresponding TRI_ServiceLineGroup dimension.
+        #/// </summary>
+        #/// <param name="_TRI_ServiceLineGroup">
+        #/// A dimensionValue for a TRI_ServiceLineGroup dimension.
+        #/// </param>
+        #/// <returns>
+        #/// boolean value returned
+        #/// </returns>
+        #public static boolean validateDimensionServiceLineGroup(DimensionValue  _TRI_ServiceLineGroup)
+        #{
+        #    boolean                     ret = true;
+        #    DimensionAttributeValue     dimAttrVal;
+        #    DimensionAttribute          dimAttr = DimensionAttribute::find( TRI_DimensionHelper::getTRI_DimAttrServiceLineGroup() );
+        #
+        #    if(_TRI_ServiceLineGroup)
+        #    {
+        #        dimAttrVal = DimensionAttributeValue::findByDimensionAttributeAndValue(dimAttr, _TRI_ServiceLineGroup);
+        #        ret = (dimAttrVal.CachedDisplayValue == _TRI_ServiceLineGroup); //RecId = 0 if DimValue is not in DimensionAttributeValue, but CashedDisplayValue is filled by right way!
+        #    }
+        #    return ret;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : TIS_SalesRepAssignmentTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #TIS_SalesRepAssignmentTable
+    EnforceFKRelation 1
+    PROPERTIES
+      Name                #TIS_SalesRepAssignmentTable
+      Label               #@TIS3280
+      TitleField1         #DistrictId
+      TitleField2         #AccountNum
+      CacheLookup         #NotInTTS
+      CreateRecIdIndex    #Yes
+      SaveDataPerCompany  #No
+      PrimaryIndex        #SurrogateKey
+      ClusterIndex        #Unique_IDX
+      ReplacementKey      #Unique_IDX
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+      DeveloperDocumentation  #@TIS3281
+      ValidTimeStateFieldType   #Date
+      Origin              #{C705D319-D1AF-4226-86E2-E29DB8788DBF}
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #AccountNum
+        STRING
+        PROPERTIES
+          Name                #AccountNum
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #TIS_SalesRepAssignmentTable
+          Origin              #{60F11B2F-942E-46B5-83DB-B8919DF44B17}
+          ExtendedDataType    #CustAccount
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #DistrictId
+        STRING
+        PROPERTIES
+          Name                #DistrictId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #TIS_SalesRepAssignmentTable
+          IgnoreEDTRelation   #Yes
+          Origin              #{0A911912-C44A-4B89-9A1F-7D0C4097D935}
+          ExtendedDataType    #LegalEntityDataAreaId
+          StringSize          #4
+        ENDPROPERTIES
+        
+      FIELD #JobType
+        STRING
+        PROPERTIES
+          Name                #JobType
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #TIS_SalesRepAssignmentTable
+          Origin              #{DC527D6F-4E8F-409B-BBD7-7E2E556E1C02}
+          ExtendedDataType    #TRI_ProjJobTypeId
+        ENDPROPERTIES
+        
+      FIELD #PersonnelNumber
+        STRING
+        PROPERTIES
+          Name                #PersonnelNumber
+          AllowEdit           #No
+          MinReadAccess       #Yes
+          Table               #TIS_SalesRepAssignmentTable
+          Origin              #{495B9C1F-5D95-4F12-BC75-DAE3ADC0A7B6}
+          ExtendedDataType    #HcmPersonnelNumberId
+          StringSize          #25
+        ENDPROPERTIES
+        
+      FIELD #SalesRepName
+        STRING
+        PROPERTIES
+          Name                #SalesRepName
+          Table               #TIS_SalesRepAssignmentTable
+          Origin              #{6714A4FB-7599-49CF-9A82-54D740E548C0}
+          ExtendedDataType    #TIS_SalesRepName
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #ServiceLineGroup
+        STRING
+        PROPERTIES
+          Name                #ServiceLineGroup
+          Label               #@SAG826
+          HelpText            #@TIS3282
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #TIS_SalesRepAssignmentTable
+          Origin              #{ADD86755-D8EE-4C55-820D-907ED043AAA4}
+          ExtendedDataType    #DimensionValue
+          StringSize          #30
+        ENDPROPERTIES
+        
+      FIELD #ValidFrom
+        DATE
+        PROPERTIES
+          Name                #ValidFrom
+          Table               #TIS_SalesRepAssignmentTable
+          Origin              #{D8E70FF5-7C81-48E0-9A28-2327F3CD84EF}
+          ExtendedDataType    #ValidFromDate
+        ENDPROPERTIES
+        
+      FIELD #ValidTo
+        DATE
+        PROPERTIES
+          Name                #ValidTo
+          Table               #TIS_SalesRepAssignmentTable
+          Origin              #{EA10696F-2CD2-4C56-8703-0CDF82515964}
+          ExtendedDataType    #ValidToDate
+        ENDPROPERTIES
+        
+      FIELD #Worker
+        INT64
+        PROPERTIES
+          Name                #Worker
+          AllowEdit           #No
+          Table               #TIS_SalesRepAssignmentTable
+          Origin              #{59916EAD-0F57-48CE-813D-DA37093ADC85}
+          ExtendedDataType    #RefRecId
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #AccountNum
+          #DistrictId
+          #PersonnelNumber
+          #JobType
+          #ServiceLineGroup
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoIdentification
+        PROPERTIES
+          Name                #AutoIdentification
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ServiceLineGroup
+          #JobType
+          #AccountNum
+          #DistrictId
+          #ValidFrom
+          #ValidTo
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@TIS1301
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #AccountNum
+          #DistrictId
+          #JobType
+          #PersonnelNumber
+          #SalesRepName
+          #ServiceLineGroup
+          #ValidFrom
+          #ValidTo
+          #Worker
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #Unique_IDX
+      PROPERTIES
+        Name                #Unique_IDX
+        AllowDuplicates     #No
+        AlternateKey        #Yes
+        ValidTimeStateKey   #Yes
+        ValidTimeStateMode  #NoGap
+        Origin              #{B3705C21-714C-418D-B8F6-766AEC903F84}
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #ServiceLineGroup
+        #JobType
+        #AccountNum
+        #DistrictId
+        #ValidFrom
+        #ValidTo
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    FULLTEXTINDICES
+    ENDFULLTEXTINDICES
+    REFERENCES
+      REFERENCE #CompanyInfo
+        PROPERTIES
+          Name                #CompanyInfo
+          Table               #CompanyInfo
+          RelatedTableCardinality   #ExactlyOne
+          Cardinality         #ZeroMore
+          RelationshipType    #Association
+          UseDefaultRoleNames #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE PKFK
+          PROPERTIES
+            Field               #DistrictId
+            RelatedField        #DataArea
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #CustTable
+        PROPERTIES
+          Name                #CustTable
+          Table               #CustTable
+          RelatedTableCardinality   #ZeroOne
+          Cardinality         #ZeroMore
+          RelationshipType    #Association
+          UseDefaultRoleNames #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #AccountNum
+            RelatedField        #AccountNum
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #HCMWorker
+        PROPERTIES
+          Name                #HCMWorker
+          Table               #HcmWorker
+          RelatedTableCardinality   #ZeroOne
+          Cardinality         #ExactlyOne
+          RelationshipType    #Association
+          UseDefaultRoleNames #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE PKFK
+          PROPERTIES
+            Field               #Worker
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #TRI_ProjJobType
+        PROPERTIES
+          Name                #TRI_ProjJobType
+          Table               #TRI_ProjJobType
+          RelatedTableCardinality   #ExactlyOne
+          Cardinality         #ZeroMore
+          RelationshipType    #Association
+          UseDefaultRoleNames #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #JobType
+            RelatedField        #JobTypeId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      SOURCE #findEmployeeName
+        #public  Name findEmployeeName(RefRecId _worker)
+        #{
+        #    return Dirperson::find(hcmWorker::find(_worker).person).name;
+        #}
+      ENDSOURCE
+      SOURCE #findSalesRep
+        #public   TIS_SalesRepAssignmentTable findSalesRep(
+        #Accountnum          _CustAcct = "",
+        #DataAreaId          _Districtid = "",
+        #TRI_ProjJobTypeId   _jobType = "",
+        #DimensionValue      _serviceLineGroup="",
+        #ValidFromDate       _validFrom = str2Date('01/01/1900',213),
+        #Validtodate         _validTo = maxDate()
+        #)
+        #{
+        #    date                validToDate;
+        #
+        #    TIS_SalesRepAssignmentTable salesRepAssign;
+        #
+        #
+        #    if (_validTo != maxDate())
+        #    {
+        #        validToDate = maxDate();
+        #        select firstonly validtimestate(_validFrom,validToDate) * from salesRepAssign
+        #        order by Validto desc
+        #        where salesRepAssign.AccountNum == _CustAcct
+        #        && salesRepAssign.Districtid == _districtid
+        #        && salesRepAssign.jobtype == _jobType
+        #        && salesRepAssign.serviceLinegroup == _serviceLineGroup
+        #        && salesRepAssign.ValidFrom <= _validTo
+        #        && salesRepAssign.ValidTo >= _validTo;
+        #
+        #        if (salesRepAssign)
+        #                return salesRepAssign;
+        #        else
+        #        {
+        #            if (!salesRepAssign)
+        #            {
+        #                select firstonly validtimestate(_validFrom,validToDate) * from salesRepAssign
+        #                order by Validto asc
+        #                where salesRepAssign.AccountNum == _CustAcct
+        #                && salesRepAssign.Districtid == _districtid
+        #                && salesRepAssign.jobtype == _jobType
+        #                && salesRepAssign.serviceLinegroup == ''
+        #                && salesRepAssign.ValidFrom <= _validTo
+        #                && salesRepAssign.ValidTo >= _validTo;
+        #
+        #                if (salesRepAssign)
+        #                    return salesRepAssign;
+        #                else
+        #                {
+        #                    select firstonly validtimestate(_validFrom,validToDate) * from salesRepAssign
+        #                    order by Validto asc
+        #                    where salesRepAssign.AccountNum == _CustAcct
+        #                    && salesRepAssign.Districtid == _districtid
+        #                    && salesRepAssign.jobtype == ''
+        #                    && salesRepAssign.serviceLinegroup == _servicelinegroup
+        #                    && salesRepAssign.ValidFrom <= _validTo
+        #                    && salesRepAssign.ValidTo >= _validTo;
+        #                    if (salesRepAssign)
+        #                        return salesRepAssign;
+        #                    else
+        #                    {
+        #
+        #                        if (!salesRepAssign)
+        #                        {
+        #                            select firstonly validtimestate(_validFrom,validToDate) * from salesRepAssign
+        #                            order by Validto asc
+        #                            where salesRepAssign.AccountNum == _CustAcct
+        #                            && salesRepAssign.Districtid == _districtid
+        #                            && salesRepAssign.jobtype == ''
+        #                            && salesRepAssign.serviceLinegroup == ''
+        #                            && salesRepAssign.ValidFrom <= _validTo
+        #                            && salesRepAssign.ValidTo >= _validTo;
+        #                            if (salesRepAssign)
+        #                                    return salesRepAssign;
+        #
+        #                        }
+        #                    }
+        #
+        #                }
+        #
+        #            }
+        #        }
+        #    }
+        #    else
+        #        {
+        #        if (!salesRepAssign)
+        #        {
+        #            select firstonly worker from salesRepAssign
+        #            where salesRepAssign.AccountNum == _CustAcct
+        #            && salesRepAssign.Districtid == _districtid
+        #            && salesRepAssign.jobtype == _jobType
+        #            && salesRepAssign.serviceLinegroup == _serviceLineGroup;
+        #            if (salesRepAssign)
+        #                    return salesRepAssign;
+        #            else
+        #            {
+        #                if (!salesRepAssign)
+        #                {
+        #                    select firstonly * from salesRepAssign
+        #                    where salesRepAssign.AccountNum == _CustAcct
+        #                    && salesRepAssign.Districtid == _districtid
+        #                    && salesRepAssign.jobtype == _jobType
+        #                    && salesRepAssign.serviceLinegroup == '';
+        #                    if (salesRepAssign)
+        #                        return salesRepAssign;
+        #                    else
+        #                    {
+        #                        select firstonly * from salesRepAssign
+        #                        where salesRepAssign.AccountNum == _CustAcct
+        #                        && salesRepAssign.Districtid == _districtid
+        #                        && salesRepAssign.jobtype == ''
+        #                        && salesRepAssign.serviceLinegroup == _servicelinegroup;
+        #                        if (salesRepAssign)
+        #                            return salesRepAssign;
+        #                        else
+        #                        {
+        #
+        #                            if (!salesRepAssign)
+        #                            {
+        #                                select firstonly * from salesRepAssign
+        #                                where salesRepAssign.AccountNum == _CustAcct
+        #                                && salesRepAssign.Districtid == _districtid
+        #                                && salesRepAssign.jobtype == ''
+        #                                && salesRepAssign.serviceLinegroup == '';
+        #                                if (salesRepAssign)
+        #                                        return salesRepAssign;
+        #
+        #                            }
+        #                        }
+        #
+        #                    }
+        #
+        #                }
+        #            }
+        #        }
+        #    }
+        #
+        #    return salesRepAssign;
+        #}
+      ENDSOURCE
+      SOURCE #findSalesRepbyInvoice
+        #public static TIS_SalesRepAssignmentTable findSalesRepbyInvoice(
+        #ProjInvoiceJour         _projInvoiceJour
+        #)
+        #{
+        #    ProjTable                           projtable;
+        #    TIS_SalesRepAssignmentTable            salesRep;
+        #    TIS_SalesRepAssignmentTable salesRepAssign;
+        #    ProjFundingSource   projFundingSource;
+        #    CustAccount         custAccount;
+        #    DimensionValue      serviceLineGroup;
+        #    ValidFromDate       validFrom = str2Date('01/01/1900',213);
+        #    Validtodate         validTo = maxDate();
+        #
+        #
+        #
+        #    projtable = projtable::find(TRI_ProjInvoiceJour_CustRef::findbyRefRecId(_ProjInvoiceJour.recid).TIS_Projid);
+        #  // ifcust account and delivery not the same check the customer group if other user delivery otherwise use the project contract invoice.
+        #
+        #   // if not sales name found default to 99999 - house account
+        #
+        #    projFundingSource = projfundingsource::findCustAccount(projtable.projinvoiceprojid);
+        #    serviceLineGroup = TIS_SalesRepAssignmentTable::getServiceLineGroup(projTable);
+        #    if (projTable.CustAccount != projFundingSource.CustAccount)
+        #    {
+        #        if(CustTable::find(projTable.CustAccount).CustGroup == ProjParameters::find().tis_CustGroupId)
+        #            custAccount =projTable.CustAccount;
+        #        else
+        #            custAccount = projFundingSource.CustAccount;
+        #    }
+        #    else
+        #        custAccount = projFundingSource.CustAccount;
+        #
+        #    salesRep =  salesRepAssign.findSalesRep(custAccount,projTable.dataAreaId,projTable.TRI_jobtype,serviceLinegroup,str2Date('01/01/1900',213),_projInvoiceJour.Invoicedate);
+        #    salesRep = TIS_SalesRepAssignmentTable::GetSalesRepName(salesRep);
+        #    return salesRep;
+        #}
+      ENDSOURCE
+      SOURCE #findSalesRepbyProject
+        #public static TIS_SalesRepAssignmentTable findSalesRepbyProject(
+        #ProjTable         _projTable
+        #)
+        #{
+        #    TIS_SalesRepAssignmentTable            salesRep;
+        #    TIS_SalesRepAssignmentTable salesRepAssign;
+        #    ProjFundingSource   projFundingSource;
+        #    CustAccount         custAccount;
+        #    DimensionValue      serviceLineGroup;
+        #    ValidFromDate       validFrom = str2Date('01/01/1900',213);
+        #    Validtodate         validTo = maxDate();
+        #
+        #  // ifcust account and delivery not the same check the customer group if other user delivery otherwise use the project contract invoice.
+        #
+        #   // if not sales name foudn default to 99999 - house account
+        #
+        #    projFundingSource = projfundingsource::findCustAccount(_projtable.projinvoiceprojid);
+        #    serviceLineGroup = TIS_SalesRepAssignmentTable::getServiceLineGroup(_projTable);
+        #    if ( _projTable.CustAccount != projFundingSource.CustAccount)
+        #    {
+        #        if(CustTable::find(_projTable.CustAccount).CustGroup == ProjParameters::find().tis_CustGroupId)
+        #            custAccount =_projTable.CustAccount;
+        #        else
+        #            custAccount = projFundingSource.CustAccount;
+        #    }
+        #    else
+        #        custAccount = projFundingSource.CustAccount;
+        #
+        #    salesRep =  salesRepAssign.findSalesRep(custAccount,_projTable.dataAreaId,_projTable.TRI_jobtype,serviceLinegroup);
+        #    salesRep = TIS_SalesRepAssignmentTable::GetSalesRepName(salesRep);
+        #
+        #    return salesRep;
+        #}
+      ENDSOURCE
+      SOURCE #GetSalesRepName
+        #public static TIS_SalesRepAssignmentTable GetSalesRepName(TIS_SalesRepAssignmentTable _salesrep)
+        #{
+        #    HcmPersonnelNumberId            houseAccount;
+        #    TIS_SalesRepAssignmentTable     salesRepTable;
+        #
+        #    houseAccount = ProjParameters::find().TIS_DefaultSalesRep;
+        #    salesRepTable = _salesRep;
+        #
+        #    if (_salesRep.SalesRepName == '' || _salesrep.PersonnelNumber == houseAccount)
+        #    {
+        #        salesRepTable.PersonnelNumber = houseAccount;
+        #    // Locate the name of the Person
+        #        if (ProjParameters::find().TIS_DefaultSalesRepName)
+        #        {
+        #            salesRepTable.SalesRepName = ProjParameters::find().TIS_DefaultSalesRepName;
+        #            salesRepTable.Worker = HcmWorker::findByPersonnelNumber(_salesRep.PersonnelNumber).RecId;
+        #        }
+        #        else
+        #        {
+        #            salesRepTable.salesRepName =  DirPerson::find(HcmWorker::findByPersonnelNumber(salesRepTable.PersonnelNumber).person).Name;
+        #            salesRepTable.Worker = HcmWorker::findByPersonnelNumber(salesRepTable.PersonnelNumber).RecId;
+        #        }
+        #    }
+        #    return salesRepTable;
+        #}
+      ENDSOURCE
+      SOURCE #getServiceLineGroup
+        #Public  static DimensionDisplayValue getServiceLineGroup(projTable _projTable)
+        #{
+        #    DimensionAttribute              dimAttrServiceLine, dimAttrServiceLinegroup;
+        #    DimensionAttributeValue         dimAttrValue;
+        #    DimensionAttributeValueSetItem  dimAttributeValueSetItem;
+        #
+        #    dimAttrServiceLine      = DimensionAttribute::find(TRI_DimensionHelper::getTRI_DimAttrServiceLine()); //TRI_DimensionRefactoring, vam, 26-Nov-2014
+        #    dimAttrServiceLinegroup = DimensionAttribute::find(TRI_DimensionHelper::getTRI_DimAttrServiceLineGroup()); //TRI_DimensionRefactoring, vam, 26-Nov-2014
+        #
+        #
+        #
+        #    select DisplayValue from dimAttributeValueSetItem
+        #        where dimAttributeValueSetItem.DimensionAttributeValueSet == _projTable.DefaultDimension
+        #            join RecId from dimAttrValue
+        #            where dimAttrValue.RecId == dimAttributeValueSetItem.DimensionAttributeValue
+        #               && dimAttrValue.DimensionAttribute == dimAttrServiceLineGroup.RecId;
+        #
+        #
+        #
+        #    return dimAttributeValueSetItem.DisplayValue;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 12
+
+FORM #ProjTableCreate
+  PROPERTIES
+    Name                #ProjTableCreate
+    Origin              #{469A718F-AC79-485A-95E5-11B8CF70A822}
+  ENDPROPERTIES
+  
+  METHODS
+    SOURCE #classDeclaration
+      #class FormRun extends ObjectRun
+      #{
+      #    ProjTable                   formProjTable;
+      #    ProjWIPTable                projWIPTable;
+      #    ProjParameters              projParameters;
+      #
+      #    NumberSeqFormHandler        numberSeqFormHandler;
+      #    ProjId                      projId;
+      #    ProjInvoiceProjId           projInvoiceProjId;
+      #    CustAccount                 localCustAccount;
+      #
+      #    ProjTableType               projTableType;
+      #
+      #    boolean                     createEstimateProject;
+      #
+      #    boolean                     isSubProject;
+      #
+      #    ProjTable                   localProjTable;
+      #    ProjTableTaxExtensionIN     projTableTaxExtensionIN;
+      #    //TRI_059 Extended Proj Sales Price, address lookup, vam, 16-Dec-2014, BEGIN, ---->
+      #    //Please don't use here projtable.variable = value. Lets make as this example
+      #    LogisticsLocationRecId      projDeliveryLocation;
+      #    DimensionValue              dimValue_ServiceLine,dimValue_Branch;
+      #    //TRI_059 Extended Proj Sales Price, address lookup, vam, 16-Dec-2014, FINISH, <----
+      #    TRI_ProjJobTypeId           tri_ProjJobTypeId;
+      #     //Maruthi, Aarolla TIS_CHG0032300_DR455a_FDKeyServiceType starts
+      #    DimensionValue               keyServiceTypeDim;
+      #    DimensionAttribute           keyServiceTypeDimAttr;
+      #      //Maruthi, Aarolla TIS_CHG0032300_DR455a_FDKeyServiceType ends
+      #}
+    ENDSOURCE
+    SOURCE #canClose
+      #boolean  canClose()
+      #{
+      #    ProjGroup projGroup;
+      #    ProjInvoiceTable    projInvoiceTable;
+      #    #ISOCountryRegionCodes
+      #
+      #
+      #    if (element.closedOk())
+      #    {
+      #        if (newEstimateProject.checked())
+      #        {
+      #            projGroup = ProjGroup::find(projTable.ProjGroupId);
+      #            if(projGroup.ControlId == '' || projGroup.PeriodId == '')
+      #            {
+      #                return checkFailed("@GLS480006");
+      #            }
+      #
+      #            projWIPTable.clear();
+      #            projWIPTable.ProjId         = projTable.ProjId;
+      #            projWIPTable.ControlId      = projGroup.ControlId;
+      #            projWIPTable.PeriodId       = projGroup.PeriodId;
+      #            projWIPTable.Description    = projTable.Name;
+      #
+      #            if (projWIPTable.validateWrite(false) == false)
+      #            {
+      #                return false;
+      #            }
+      #        }
+      #
+      #        if (projTableType && element.closedOk() && (projTable_ds.validateWrite() == false))
+      #        {
+      #            return false;
+      #        }
+      #
+      #        projTable_ds.write();
+      #
+      #        if (SysCountryRegionCode::isLegalEntityInCountryRegion([#isoIN]))
+      #        {
+      #            projInvoiceTable = ProjInvoiceTable::find(projTable.ProjInvoiceProjId);
+      #            if (projInvoiceTable
+      #                && (projTable.Type == ProjType::TimeMaterial || projTable.Type == ProjType::FixedPrice))
+      #            {
+      #                projTableTaxExtensionIN.initFromProjInvoiceTable_IN(ProjInvoiceTableTaxExtensionIN::findByProjInvoiceTable(projInvoiceTable.RecId));
+      #                projTableTaxExtensionIN.ProjTable = projTable.RecId;
+      #                projTableTaxExtensionIN.insert();
+      #            }
+      #            else
+      #            {
+      #                projTableTaxExtensionIN.initValue();
+      #                projTableTaxExtensionIN.ProjTable = projTable.RecId;
+      #                projTableTaxExtensionIN.insert();
+      #            }
+      #        }
+      #    }
+      #    else
+      #    {
+      #         element.numberSeqFormHandler().formMethodClose();
+      #    }
+      #
+      #    return true;
+      #}
+    ENDSOURCE
+    SOURCE #changeType
+      #void changeType()
+      #{
+      #    // Clear estimate fields for non-estimate project types
+      #    if (!(projTable.Type == ProjType::FixedPrice || projTable.Type == ProjType::Investment))
+      #    {
+      #        newEstimateProject.value(NoYes::No);
+      #        controlId.text('');
+      #        projPeriodId.text('');
+      #    }
+      #    else
+      #    {
+      #        newEstimateProject.value(NoYes::Yes);
+      #    }
+      #    projTableType = null;
+      #    projTableType = ProjTableType::construct(projTable);
+      #
+      #    projTableType.initProjTable();
+      #    projTableType.createFormActive(element);
+      #
+      #    projTableType.enableDisableFields();
+      #
+      #    element.enableNewProjectContractButton();
+      #}
+    ENDSOURCE
+    SOURCE #close
+      #void close()
+      #{
+      #    Object      callerFormObject;
+      #    FormName    callerFormName;
+      #
+      #    callerFormObject = element.args().caller();
+      #    if (callerFormObject != null)
+      #
+      #    if (numberSeqFormHandler)
+      #    {
+      #        numberSeqFormHandler.formMethodClose();
+      #    }
+      #
+      #    if (callerFormObject != null)
+      #    {
+      #        callerFormName = callerFormObject.name();
+      #
+      #        if (callerFormName == formStr(ProjGrant)                ||
+      #            callerFormName == formStr(ProjInvoiceTable)         ||
+      #            callerFormName == formStr(ProjProjectCOntractsListPage))
+      #        {
+      #            if (projTable.RecId)
+      #            {
+      #                element.openEditDetailsForm();
+      #            }
+      #        }
+      #            //TRI_TDD046 JSS Migrations, 12-Dec-2014, BEGIN, --->
+      #        if (callerFormName == formStr(ProjProjectsListPage) ||
+      #            callerFormName == formStr(ProjTable)            ||
+      #            callerFormName == formStr(TRI_JSSJobsTableListPage))
+      #        {
+      #
+      #            if (projTable.RecId && projTable.ParentId)
+      #            {
+      #                element.TRI_JSSOpenCreateQuestionsTable(callerFormName);
+      #            }
+      #            else
+      #            if (projTable.RecId)
+      #            {
+      #                element.openEditDetailsForm();
+      #                //GF mantis #2046 12-9-15 moved from projTable.write()
+      #                //ProjTable::tri_createSubProject( ProjTable::find(projTable.ProjId), projTable.DefaultDimension, newEstimateProject.checked() );
+      #            }
+      #        }
+      #        //TRI_TDD046 JSS Migrations, 12-Dec-2014, FINISH, <---
+      #
+      #        if (isSubProject && (callerFormName == formStr(ProjTable)) && this.closedOk())
+      #        {
+      #            if (projTable && formHasMethod(callerFormObject, identifierStr(updateProjectTreeHierarchy)))
+      #            {
+      #                callerFormObject.updateProjectTreeHierarchy(projTable.ProjId);
+      #            }
+      #        }
+      #    }
+      #
+      #    super();
+      #}
+    ENDSOURCE
+    SOURCE #custAccount
+      #CustAccount  custAccount(CustAccount   _custAccount = localCustAccount)
+      #{
+      #    localCustAccount  = _custAccount;
+      #
+      #    return localCustAccount;
+      #}
+    ENDSOURCE
+    SOURCE #enableNewProjectContractButton
+      #private void enableNewProjectContractButton()
+      #{
+      #    if (projTable.Type == ProjType::Time ||
+      #        projTable.Type == ProjType::Cost ||
+      #        projTable.Type == ProjType::Internal ||
+      #        projTable.Type == ProjType::Investment)
+      #    {
+      #        newProjectContract.enabled(false);
+      #        newProjectContract.skip(true);
+      #    }
+      #    else
+      #    {
+      #        newProjectContract.enabled(true);
+      #        newProjectContract.skip(false);
+      #    }
+      #    //CR 108 cannot open subproject for different cust sku -->
+      #    if (isSubProject)
+      #    {
+      #        NewProjectContract.enabled(false);
+      #    }
+      #    //CR 108 cannot open subproject for different cust sku --<
+      #}
+    ENDSOURCE
+    SOURCE #findSalesRep
+      #// CHG0038640 Added by Crawford, Teresa 8/03/2021
+      #//description
+      #public Name findSalesRep(Projtable _projtable)
+      #{
+      #    Name            ret;
+      #    ret = TIS_SalesRepAssignmentTable::findSalesRepbyProject(ProjTable).SalesRepName;
+      #    return ret;
+      #
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #void init()
+      #{
+      #    ProjInvoiceTable projInvoiceTable;
+      #    CustTable        custTable;
+      #    TRI_JSSJobsTable jobsTable;
+      #    projParameters = ProjParameters::find();
+      #
+      #    super();
+      #
+      #    if (element.args() && element.args().caller())
+      #    {
+      #        switch (element.args().dataset())
+      #        {
+      #            case tableNum(ProjTable)     :
+      #                formProjTable = element.args().record();
+      #                break;
+      #
+      #            case tableNum(ProjInvoiceTable) :
+      #                projInvoiceTable = element.args().record();
+      #                element.projInvoiceProjId(projInvoiceTable.ProjInvoiceProjId);
+      #                break;
+      #
+      #            case tableNum(CustTable) :
+      #                custTable = element.args().record();
+      #                element.custAccount(custTable.AccountNum);
+      #                break;
+      #    // TRI_TDD046_JSSMigration_20141104 -->
+      #            case tableNum(TRI_JSSJobsTable) :
+      #                jobsTable = element.args().record();
+      #                formProjTable = ProjTable::find(jobsTable.ProjId);
+      #                break;
+      #    // TRI_TDD046_JSSMigration_20141104 <--
+      #            default:
+      #        }
+      #    }
+      #
+      #    isSubProject = false;
+      #    if (element.args() &&
+      #        element.args().parmEnumType() == enumNum(ProjTableCreateLevel) &&
+      #        element.args().parmEnum())
+      #    {
+      #        isSubProject = (element.args().parmEnum() == ProjTableCreateLevel::Subproject);
+      #        element.projId(formProjTable.ProjId);
+      #    }
+      #
+      #    element.setCaption();
+      #    // TRI_JSSAddendum_20150209 -->
+      #    element.setServiceLine();
+      #    // TRI_JSSAddendum_20150209 <--
+      #
+      #
+      #    //TRI_049_CustomProjectFields FEK 09/01/2014 -->
+      #    // TRI_JSSAddendum_20150209 -->
+      #    // As per discussions/mail on 12/02/2015
+      #    //if(this.args().menuItemName() == menuitemDisplayStr(ProjTableCreateSubproject))
+      #    //{
+      #        //ProjTable_ds.object(fieldNum(ProjTable, TRI_JobType)).allowEdit(false);
+      #    //}
+      #    // TRI_JSSAddendum_20150209 <--
+      #    //TRI_049_CustomProjectFields FEK 09/01/2014 <--
+      #
+      #    //TRI_059 Ext Proj Price, proj address lookup, vam, 16-Dec-2014
+      #    if(TRI_DimensionHelper::validateDimensionBranch(curext()) )
+      #    {
+      #        dimValue_Branch = curext();
+      #        // TIS_CHG0038472 on 18/06/2021 by Suricha ---Begin
+      #        TRI_HomeBranch.text(this.tri_homeBrach());
+      #        // TIS_CHG0038472 on 18/06/2021 by Suricha --Ended
+      #    }
+      #
+      #    //CR 108 cannot open subproject for different cust sku -->
+      #    if (isSubProject)
+      #    {
+      #        CustAccount.allowEdit(false);
+      #        ProjinvoiceId.allowEdit(false);
+      #         // CHG0036877 TLC Sales Opportunity Begin
+      #       // tis_salesOpportunityID.text(ProjTable::find(element.projId()).tis_Opportunityid);
+      #        // CHG0036877 TLC Sales Opportunity End
+      #
+      #    }
+      #    //CR 108 cannot open subproject for different cust sku --<
+      #}
+    ENDSOURCE
+    SOURCE #isActive
+      #public boolean isActive(str _dimValue,TRI_PriceGroupDiscServiceLineDim _serviceLineDim)
+      #{
+      #    boolean                     ret = true;
+      #    DimensionAttribute          dimAttribute = DimensionAttribute::findByName(_serviceLineDim);
+      #    DimensionAttributeValue     dimAttributeValue;
+      #
+      #    if (_dimValue)
+      #    {
+      #        dimAttributeValue   = DimensionAttributeValue::findByDimensionAttributeAndValueNoError(dimAttribute, _dimValue, true, true);
+      #        if (!((dimAttributeValue.ActiveFrom <= today() || dimAttributeValue.ActiveFrom == dateNull()) && (dimAttributeValue.ActiveTO >= today() || dimAttributeValue.ActiveTo == dateNull())))
+      #
+      #        {
+      #            ret = false;
+      #        }
+      #    }
+      #
+      #    return ret;
+      #}
+    ENDSOURCE
+    SOURCE #isSuspended
+      #public boolean isSuspended(str _dimValue,TRI_PriceGroupDiscServiceLineDim _serviceLineDim)
+      #{
+      #    boolean                     ret = true;
+      #    DimensionAttribute          dimAttribute = DimensionAttribute::findByName(_serviceLineDim);
+      #    DimensionAttributeValue     dimAttributeValue;
+      #
+      #    if (_dimValue)
+      #    {
+      #        dimAttributeValue   = DimensionAttributeValue::findByDimensionAttributeAndValueNoError(dimAttribute, _dimValue, true, true);
+      #        if (dimAttributeValue.IsSuspended == NoYes::Yes)
+      #        {
+      #            ret = false;
+      #        }
+      #    }
+      #
+      #    return ret;
+      #}
+    ENDSOURCE
+    SOURCE #isValidDimension
+      #public boolean isValidDimension(str _dimValue,TRI_PriceGroupDiscServiceLineDim _serviceLineDim)
+      #{
+      #    boolean                     ret = true;
+      #    DimensionAttribute          dimAttribute = DimensionAttribute::findByName(_serviceLineDim);
+      #    DimensionAttributeValue     dimAttributeValue;
+      #
+      #    if (_dimValue)
+      #    {
+      #        dimAttributeValue   = DimensionAttributeValue::findByDimensionAttributeAndValueNoError(dimAttribute, _dimValue, true, true);
+      #        if (!dimAttributeValue)
+      #        {
+      #            ret = false;
+      #        }
+      #    }
+      #
+      #    return ret;
+      #}
+    ENDSOURCE
+    SOURCE #numberSeqFormHandler
+      #public NumberSeqFormHandler numberSeqFormHandler()
+      #{
+      #    if (!numberSeqFormHandler)
+      #    {
+      #        numberSeqFormHandler = ProjTable.numberSeqFormHandler(element, projTable_ds);
+      #    }
+      #
+      #    return numberSeqFormHandler;
+      #}
+    ENDSOURCE
+    SOURCE #openEditDetailsForm
+      #public void openEditDetailsForm()
+      #{
+      #    MenuFunction    menuFunction;
+      #    Args            args       = new Args();
+      #
+      #    args.record(projTable);
+      #    args.caller(this);
+      #
+      #    menuFunction = new MenuFunction(menuitemDisplayStr(ProjTable), MenuItemType::Display);
+      #    menuFunction.run(args);
+      #}
+    ENDSOURCE
+    SOURCE #projId
+      #ProjId  projId(ProjId   _projId = projId)
+      #{
+      #    projId  = _projId;
+      #
+      #    return projId;
+      #}
+    ENDSOURCE
+    SOURCE #projInvoiceProjId
+      #ProjInvoiceProjId  projInvoiceProjId(ProjInvoiceProjId   _projInvoiceProjId = projInvoiceProjId)
+      #{
+      #    projInvoiceProjId  = _projInvoiceProjId;
+      #
+      #    return projInvoiceProjId;
+      #}
+    ENDSOURCE
+    SOURCE #run
+      #void run()
+      #{
+      #    super();
+      #
+      #    try
+      #    {
+      #        element.lock();
+      #
+      #        projTable_Type.modified();
+      #
+      #        element.unLock();
+      #    }
+      #
+      #    catch (Exception::Error)
+      #    {
+      #        element.unLock();
+      #        element.close();
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #setCaption
+      #void setCaption()
+      #{
+      #    ;
+      #
+      #    if (isSubProject)
+      #    {
+      #        element.design().caption(strFmt("@SYS321410"));
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #setCustAccount
+      #public void setCustAccount(CustAccount _custAccount)
+      #{
+      #    //LogisticsLocationEntity         location;
+      #
+      #    projTable.CustAccount = _custAccount;
+      #    custAccount.text(_custAccount);
+      #
+      #//TRI_059 Ext Proj Sales Price, address lookup, vam, 17-Dec-2014, BEGIN, ---->
+      #    if(_custAccount == "")
+      #    {
+      #        element.TRI_processDeliveryLocation("", true);
+      #    }
+      #    /*else - Commented out per Chris Cavins 6/12/2015
+      #    {
+      #        element.TRI_processDeliveryLocation( LogisticsLocation::find(TRI_PriceHelper::getDeliveryLocationfromCustTable(_custAccount)).LocationId, true );
+      #    }*/
+      #//TRI_059 Ext Proj Sales Price, address lookup, vam, 17-Dec-2014, FINISH, <-----
+      #}
+    ENDSOURCE
+    SOURCE #setProjInvoiceProjId
+      #public void setProjInvoiceProjId(ProjInvoiceProjId _projInvoiceProjId)
+      #{
+      #    element.projInvoiceProjId(_projInvoiceProjId);
+      #
+      #    if (_projInvoiceProjId != "" && projTable.ProjInvoiceProjId != _projInvoiceProjId)
+      #    {
+      #        projTable.ProjInvoiceProjId = _projInvoiceProjId;
+      #        projTable.modifiedField(fieldNum(ProjTable, ProjInvoiceProjId));
+      #    }
+      #    //Commented out per Chris Cavins on 6/12/2015
+      #    //TRI_059 Extended Proj Price, proj address lookup, vam, 22-Dec-2014, BEGIN, ---->
+      #    //element.TRI_processDeliveryLocation( LogisticsLocation::find(TRI_PriceHelper::getDeliveryLocationfromCustTable(ProjTable.CustAccount)).LocationId, true );
+      #    //TRI_059 Extended Proj Price, proj address lookup, vam, 22-Dec-2014, FINISH, <----
+      #
+      #    projInvoiceId.text(_projInvoiceProjId);
+      #}
+    ENDSOURCE
+    SOURCE #setServiceLine
+      #public void setServiceLine()
+      #{
+      #    //TRI_ServiceLineGroupDimension.allowEdit(element.TRI_JSSGetRoleForCurrentUser());
+      #    //Always make the service line group non-editable.  The relationship needs to exist in the JSS Financial Relationship table
+      #    TRI_ServiceLineGroupDimension.allowEdit(false);
+      #    TRI_ServiceLineDimension.mandatory(isSubProject);
+      #}
+    ENDSOURCE
+    SOURCE #tri_createSubProject
+      #// TRI_023_NewProjectCreation_20142404 - kik -4/25/2014
+      #public void tri_createSubProject()
+      #{
+      #    //TRI_059 Ext Proj Price, proj address lookup, vam, 16-Dec-2014
+      #    //Delete duplicate code here and use the same code from ProjTable
+      #    ProjTable::tri_createSubProject(ProjTable::find(ProjTable.ProjId), ProjTable.DefaultDimension,TIS_SalesOpportunityID.text(), newEstimateProject.checked() );
+      #
+      #
+      #}
+    ENDSOURCE
+    SOURCE #tri_homeBrach
+      #// BP Deviation Documented
+      #display SelectableDataArea tri_homeBrach()
+      #{
+      #    return curext();
+      #}
+    ENDSOURCE
+    SOURCE #TRI_JSSGetRoleForCurrentUser
+      #public boolean TRI_JSSGetRoleForCurrentUser()
+      #{
+      #    SecurityUserRole    securityUserRole;
+      #    SecurityRole        securityRole;
+      #    boolean             isSysAdmin;
+      #
+      #    select firstOnly Name from securityRole
+      #        join SecurityRole, user from securityUserRole
+      #            where securityUserRole.SecurityRole == securityRole.RecId
+      #            && securityUserRole.User == curUserId()
+      #            && securityRole.Name == "@SYS344030";
+      #
+      #    if (securityRole)
+      #    {
+      #        isSysAdmin = true;
+      #    }
+      #
+      #    return isSysAdmin;
+      #
+      #}
+    ENDSOURCE
+    SOURCE #TRI_JSSOpenCreateQuestionsTable
+      #public void TRI_JSSOpenCreateQuestionsTable(FormName    _callerFormName)
+      #{
+      #    Args        args = new Args();
+      #
+      #    if (!TRI_JSSCreateJobQuestionsTable::find(projTable.TRI_JSSServiceLineGroup()))
+      #    {
+      #        info(strFmt("@SAG837",projTable.TRI_JSSServiceLineGroup()));
+      #        element.openEditDetailsForm();
+      #    }
+      #    else
+      #    {
+      #        args.caller(element);
+      #        args.record(projTable);
+      #        args.parm(_callerFormName);
+      #
+      #        new MenuFunction(menuitemDisplayStr(TRI_JSSJobsTableCreate), MenuItemType::Display).run(args);
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #TRI_processDeliveryLocation
+      #public void TRI_processDeliveryLocation(LogisticsLocationId  _locationId = "", boolean _processEmpty = false)
+      #{
+      #    //TRI_059 Extended Proj Price, proj address lookup, vam, 12-Dec-2014
+      #    LogisticsLocation       ll_orig,ll_new;
+      #
+      #    if(_locationId == "" && !_processEmpty)
+      #    {
+      #        _locationId = ProjTable_TRI_Location.text();
+      #    }
+      #
+      #    ll_orig = LogisticsLocation::find(projDeliveryLocation);
+      #    ll_new = LogisticsLocation::findByLocationId(_locationId);
+      #
+      #    if(ll_new || _locationId == "" )//if exist or empty
+      #    {
+      #        ProjTable_TRI_Location.text(ll_new.Description);
+      #
+      #        //ProjTable.TRI_setLocation(ll_new.LocationId);
+      #        projDeliveryLocation = ll_new.RecId;
+      #
+      #        //ProjTable_ds.reread();
+      #        //ProjTable_ds.rereadReferenceDataSources();
+      #        //ProjTable_ds.refresh();
+      #    }
+      #    else
+      #    {
+      #        //restore text
+      #        ProjTable_TRI_Location.text(ll_orig.Description);
+      #    }
+      #
+      #}
+    ENDSOURCE
+    SOURCE #tri_ProjJobType
+      #TRI_ProjJobTypeId tri_ProjJobType(TRI_ProjJobTypeId   _triProjJobTypeId = tri_ProjJobTypeId)
+      #{
+      #    tri_ProjJobTypeId = _triProjJobTypeId;
+      #
+      #    return tri_ProjJobTypeId;
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #ProjTable
+          Table               #ProjTable
+          AllowDelete         #No
+          LinkType            #Passive
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD ProjGroupId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #validate
+                #//Added by Kavitha ,CHG0037045
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #    ProjGroup        projGroup;
+                #    ret = super();
+                #     select * from projGroup where  projGroup.TIS_Inactive == NoYes::No && projGroup.ProjGroupId == projTable.ProjGroupId;
+                #    if(ProjGroup::find(projTable.ProjGroupId).RecId)
+                #    {
+                #    if (!projGroup)
+                #    {
+                #         ret  = checkFailed(strfmt("@TIS2365", projTable.ProjGroupId));
+                #    }
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ProjId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    NumberSequenceFormat    subFormat = ProjTable::find(projTable.ParentId).Format;
+                #    boolean                 validate;
+                #
+                #    validate = super();
+                #
+                #    if (validate)
+                #    {
+                #        validate = projTable.validateProjId(projTable.ProjId);
+                #
+                #        if (!validate)
+                #        {
+                #            ctrlProjId.text(projTable.ProjId);
+                #            Box::stop(strFmt("@SYS62416", projTable.ParentId, subFormat));
+                #        }
+                #    }
+                #
+                #    return validate;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD CustAccount
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #    ProjTable_ds.refresh();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ProjInvoiceProjId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    ProjInvoiceTable      invoiceTable;
+                #    super();
+                #    select * from invoiceTable where invoiceTable.ProjInvoiceProjId == ProjTable.ProjInvoiceProjId
+                #        && invoiceTable.TIS_Status == TIS_StatusChange::Active;
+                #    if(!invoiceTable)
+                #    {
+                #        error('The Selected Project Contract Id is InActive.');
+                #        ProjTable.ProjInvoiceProjId   ='';
+                #    }
+                #    // TIS_CHG0038472 on 18/06/2021 by Suricha ---begin
+                #    if(projTable.CustAccount && projTable.ProjInvoiceProjId && projTable.ProjGroupId)
+                #    {
+                #        if(TIS_BranchDimPCSetup::exist(projTable.ProjGroupId))
+                #        {
+                #            projTable_ds.findBranchDim();
+                #        }
+                #    }
+                #     // TIS_CHG0038472 on 18/06/2021 by Suricha ---Ended
+                #    projtable_ds.refresh();
+                #    // CHG0038640 added by Crawford, Teresa 8/03/2021 Begin
+                #    tis_salesRepname.text(element.findSalesRep(ProjTable));
+                #    // CHG0038640 added by Crawford, Teresa 8/03/2021 End
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD Type
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    element.changeType();
+                #
+                #    if (projTable.ParentId)
+                #    {
+                #        if ( !ProjTable::isNumberSeqManual())
+                #        {
+                #            ctrlProjId.allowEdit(false);
+                #        }
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #findBranchDim
+          # // TIS_CHG0038472 on 18/06/2021 by Suricha ---begin
+          #public void findBranchDim()
+          #{
+          #    ProjFundingSource   fundingSource;
+          #
+          #    fundingSource   =   ProjFundingSource::findContractCustomerFundingSource(ProjTable.ProjInvoiceProjId, ProjTable.CustAccount);
+          #
+          #    dimValue_Branch = TRI_DimensionHelper::getTRI_DimValueBranchFromDefaultDim(fundingSource.DefaultDimension);
+          #
+          #    TRI_HomeBranch.text(dimValue_Branch);
+          #    ProjTable.DefaultDimension = TRI_DimensionHelper::getNewDefaultDimension(
+          #                                            ProjTable.DefaultDimension,
+          #                                            dimValue_Branch,
+          #                                            TRI_DimensionHelper::getTRI_DimNameBranch());
+          #  // TIS_CHG0038472 on 18/06/2021 by Suricha ---begin
+          #}
+        ENDSOURCE
+        SOURCE #write
+          #void write()
+          #{
+          #    CollabSiteManager       collabSiteManager;
+          #    CaseDetail              caseDetail;
+          #    smmProjConnect          projConnect;
+          #    ProjTable               parentProjTable;
+          #     //Maruthi, Aarolla TIS_CHG0032300_DR455a_FDKeyServiceType
+          #    TRI_ProjJobType                     tri_ProjJobType;
+          #    DimensionAttributeValueSet          dimAttributeValueSet;
+          #    DimensionAttributeValueSetItem      dimAttributeValueSetItem;
+          #    DimensionAttributeValueSetStorage   dimStorage;
+          #    DimensionAttributeValue             dimAttributeValue;
+          #    DimensionAttribute                  keyServiceDimensionAttribute1;
+          #    //Maruthi, Aarolla TIS_CHG0032300_DR455a_FDKeyServiceType
+          #
+          #    ;
+          #
+          #
+          #    if (!element.closedOk())
+          #    {
+          #        return;
+          #    }
+          #
+          #    ctrlProjId.leave();
+          #
+          #    try
+          #    {
+          #        ttsbegin;
+          #
+          #        projTable.insert();
+          #        // CHG0034753 Add opportunity reference for Project Begin
+          #        // locate opportunity
+          #        if(tis_salesopportunityID.valueStr())
+          #        {
+          #            // CHG0036877 added by Crawford, Teresa 2/24/2020 Begin
+          #         //   TIS_ProjOppTrans::CreateOpp(ProjTable.Projid,tis_salesopportunityID.valueStr());
+          #            ProjTable.TIS_OpportunityID = tis_salesopportunityID.valueStr();
+          #            // CHG0036877 added by Crawford, Teresa 2/24/2020 End
+          #        }
+          #
+          #         // CHG0034753 TLC Add opportunity reference for Project End
+          #
+          #
+          #        //TRI_059 Extended Proj Price, proj address lookup, vam, 16-Dec-2014, BEGIN, ---->
+          #        //ProjTable.DefaultDimension = TRI_DimensionHelper::getNewDefaultDimension(ProjTable.DefaultDimension, dimValue_ServiceLine, TRI_DimensionHelper::getTRI_DimNameServiceLine());
+          #        ProjTable.DefaultDimension = TRI_DimensionHelper::getNewDefaultDimension(ProjTable.DefaultDimension, dimValue_Branch, TRI_DimensionHelper::getTRI_DimNameBranch());
+          #
+          #        // TRI_FDD_JSSAddendum_20151202 -->
+          #        if (TRI_ServiceLineDimension.text())
+          #        {
+          #            //TRI_DR165a_LinkingServiceGrpServiceLine -> oka
+          #            ProjTable.DefaultDimension = TRI_DimensionHelper::getNewDefaultDimension(ProjTable.DefaultDimension, TRI_ServiceLineDimension.text(), TRI_DimensionHelper::getTRI_DimNameServiceLine());
+          #            //ProjTable.DefaultDimension = ProjTable.TRI_JSSUpdateDimension(ProjTable.DefaultDimension, TRI_ServiceLineDimension.text());
+          #            //TRI_DR165a_LinkingServiceGrpServiceLine <- oka
+          #        }
+          #        if (TRI_ServiceLineGroupDimension.text())
+          #        {
+          #            //TRI_DR165a_LinkingServiceGrpServiceLine -> oka
+          #            ProjTable.DefaultDimension = TRI_DimensionHelper::getNewDefaultDimension(ProjTable.DefaultDimension, TRI_ServiceLineGroupDimension.text(), TRI_DimensionHelper::getTRI_DimNameServiceLineGroup());
+          #            //ProjTable.DefaultDimension = ProjTable.TRI_JSSUpdateGroupDimension(ProjTable.DefaultDimension, TRI_ServiceLineGroupDimension.text());
+          #            //TRI_DR165a_LinkingServiceGrpServiceLine <- oka
+          #        }
+          #        // CHG0038328 added by Crawford, Teresa 5/12/2021 Begin
+          #
+          #        if (TIS_BusinessGroup.text())
+          #        {
+          #            ProjTable.DefaultDimension = TRI_DimensionHelper::getNewDefaultDimension(ProjTable.DefaultDimension, TIS_BusinessGroup.text(), TRI_DimensionHelper::TIS_getDimNameBusinessGroup());
+          #        }
+          #        // CHG0038328 added by Crawford, Teresa 5/12/2021 End
+          #        //Maruthi, Aarolla TIS_CHG0032300_DR455a_FDKeyServiceType Starts
+          #         keyServiceDimensionAttribute1 = DimensionAttribute::find(TRI_TISI_SpecificParameters::find().TIS_KeyServiceType);
+          #
+          #        if(keyServiceDimensionAttribute1)
+          #        {
+          #          select DimensionDefault
+          #            from tri_ProjJobType
+          #           where tri_ProjJobType.JobTypeId == ProjTable.TRI_JobType;
+          #           //Added by Maruthi, Aarolla w.r.t CHG0032629 Starts
+          #            if(tri_ProjJobType)
+          #            {
+          #               // TIS_CHG0034753 TLC add field list
+          #              select Recid from  dimAttributeValueSet
+          #              where dimAttributeValueSet.RecId == tri_ProjJobType.DimensionDefault
+          #              join RecId, DisplayValue from dimAttributeValueSetItem
+          #              where dimAttributeValueSetItem.DimensionAttributeValueSet == dimAttributeValueSet.RecId;
+          #
+          #              keyServiceTypeDim       = dimAttributeValueSetItem.DisplayValue;
+          #              keyServiceTypeDimAttr   = DimensionAttribute::find(TRI_TISI_SpecificParameters::find().TIS_KeyServiceType);
+          #              dimStorage              = DimensionAttributeValueSetStorage::find(projTable.DefaultDimension);
+          #              dimAttributeValue       = DimensionAttributeValue::findByDimensionAttributeAndValue(keyServiceTypeDimAttr, keyServiceTypeDim, true, true);
+          #              dimStorage.addItemValues(keyServiceTypeDimAttr.RecId, dimAttributeValue.RecId, dimAttributeValue.HashKey);
+          #              projTable.DefaultDimension = dimStorage.save();
+          #            }
+          #          //Added by Maruthi, Aarolla w.r.t CHG0032629 Ends
+          #        }
+          #        //Maruthi, Aarolla TIS_CHG0032300_DR455a_FDKeyServiceType ends
+          #
+          #        // TRI_FDD_JSSAddendum_20151202 <--
+          #        ProjTable.TRI_setDeliveryLocation(projDeliveryLocation);
+          #        ProjTable.update();
+          #        //TRI_059 Extended Proj Price, proj address lookup, vam, 16-Dec-2014, FINISH, <----
+          #
+          #
+          #        if (isSubProject && projTable)
+          #        {
+          #            parentProjTable = ProjTable::find(element.projId());
+          #            Docu::copy(parentProjTable, projTable);
+          #        }
+          #
+          #        // Create Estimate project and assign the estimate project to the main project only if
+          #        // the project created is of type 'Fixed price' or 'Investment' and
+          #        // the project group that is selected has revenue recognition accounting rule other than 'No WIP'
+          #        if (newEstimateProject.checked()                                                        &&
+          #            (projTable.Type == ProjType::FixedPrice || projTable.Type == ProjType::Investment)  &&
+          #            ProjGroup::find(projTable.ProjGroupId).CompletePrincip != ProjCompletePrincip::NoWIP)
+          #        {
+          #            projWIPTable.insert();
+          #        }
+          #        // TRI_023_NewProjectCreation_20142404 - kik -4/25/2014 -->
+          #        //GF mantis # 2046 12/9/15 moved so we can call after open edit form
+          #        if (!isSubProject)
+          #        {
+          #            //TRI_059 Ext Proj Price, proj address lookup, vam, 16-Dec-2014
+          #            //Delete duplicate code here and use the same code from ProjTable
+          #            //element.tri_createSubProject();
+          #            ProjTable::tri_createSubProject( ProjTable::find(ProjTable.ProjId), ProjTable.DefaultDimension,tis_salesopportunityID.valueStr(), newEstimateProject.checked() );
+          #        }
+          #
+          #        // <-- TRI_023_NewProjectCreation_20142404 - kik -4/25/2014
+          #
+          #
+          #        element.numberSeqFormHandler().formMethodDataSourceWrite();
+          #
+          #        ttscommit;
+          #
+          #    }
+          #    catch (Exception::Error)
+          #    {
+          #        element.numberSeqFormHandler().formMethodClose(true);
+          #        projTable.RecId = 0;
+          #
+          #        element.close();
+          #    }
+          #
+          #    // put this outside of the Project create transaction
+          #    // if this fails, then Project creation will continue
+          #    // and don't throw the exception, just display the error message
+          #    try
+          #    {
+          #        collabSiteManager = CollabSiteManager::construct(projTable);
+          #        collabSiteManager.autoCreateSite(true,false,false);
+          #    }
+          #    catch
+          #    {
+          #        warning(strFmt("@SYS137323"));
+          #    }
+          #
+          #    if (formHasMethod( element.args().caller(), identifierStr(createprojId)))
+          #    {
+          #        element.args().caller().createprojId(projTable.ProjId);
+          #    }
+          #
+          #    if (element.args().dataset() == tableNum(CaseDetail) || element.args().dataset() == tableNum(CaseDetailBase))
+          #    {
+          #        caseDetail = element.args().record();
+          #        projConnect = smmProjConnect::construct(caseDetail);
+          #        projConnect.parmProjId(projTable.ProjId);
+          #        projConnect.run();
+          #
+          #        if (formHasMethod(element.args().caller(), identifierStr(refreshAssociations)))
+          #        {
+          #            element.args().caller().refreshAssociations();
+          #        }
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #validateWrite
+          #boolean validateWrite()
+          #{
+          #    boolean ret = true;
+          #
+          #
+          #    if (ProjTable::exist(projTable.ProjId))
+          #    {
+          #        return checkFailed("@SYS56494");
+          #    }
+          #
+          #    if (!element.closedOk())
+          #    {
+          #        element.numberSeqFormHandler().formMethodDataSourceValidateWrite(ret);
+          #        return false;
+          #    }
+          #
+          #    ret = projTableType.validateWrite();
+          #
+          #    //TRI_CR127_ProjectRequiredFields_02152016 added by oka 2/17/2016 Begin
+          #    if (ret && (projTable.Type == ProjType::TimeMaterial || projTable.Type == ProjType::FixedPrice))
+          #    {
+          #
+          #        if (!projDeliveryLocation)
+          #        {
+          #            return checkFailed("@SYS37918");
+          #        }
+          #
+          #        if (!TRI_ServiceLineDimension.text())
+          #        {
+          #            return checkFailed("@SYS37918");
+          #        }
+          #
+          #        //TRI_DR165a_LinkingServiceGrpServiceLine
+          #        if (!TRI_ServiceLineGroupDimension.text())
+          #        {
+          #            return checkFailed("@TRI20490");
+          #        }
+          #    }
+          #    //TRI_CR127_ProjectRequiredFields_02152016 added by oka 2/17/2016 End
+          #    // CHG0037264 added by Crawford, Teresa 6/17/2020 Begin
+          #    if (ret)
+          #    {
+          #
+          #        if (TIS_EnterpriseRequiredProjType::find(ProjTable.Type) && !TIS_EnterPriseThemes::find(TIS_EnterpriseThemesID.text()).recid)  // CHG0037474 Teresa Crawford Addeded or statement for string value
+          #            return checkFailed("@TIS2570");
+          #    }
+          #    // CHG0037264 added by Crawford, Teresa 6/17/2020 End
+          #
+          #    ret = element.numberSeqFormHandler().formMethodDataSourceValidateWrite(ret) && ret;
+          #    // CHG0036290 added by Crawford, Teresa 10/07/2019 Begin
+          #    //
+          #    if (ret)
+          #    {
+          #        // CHG0036877 added by Crawford, Teresa 2/24/2020 Begin
+          #       // ret = TIS_ProjOppTrans.checkOpportunity(TIS_SalesOpportunityID.text(),CtrlProjid.text());
+          #        ret = TIS_SalesOpportunityTable::checkOpportunity(TIS_SalesOpportunityID.text(),CtrlProjid.text());
+          #        // CHG0036877 added by Crawford, Teresa 2/24/2020 End
+          #        return ret;
+          #    }
+          #
+          #
+          #    // CHG0036290 dded by Crawford, Teresa 10/07/2019 End
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #initValue
+          #void initValue()
+          #{
+          #    // TRI_023_NewProjectCreation_20142404 - kik- 5/6/2014 -->
+          #    //container con;
+          #    //int       i;
+          #    // <-- TRI_023_NewProjectCreation_20142404 - kik- 5/6/2014
+          #
+          #    // for root project, get type from parameters
+          #    // subprojects get type from the parent
+          #    if (!isSubProject)
+          #    {
+          #        projTable.Type = projParameters.DisplayProjectType;
+          #        projTable.ProjInvoiceProjId=element.projInvoiceProjId();
+          #        projTable.modifiedField(fieldNum(ProjTable,ProjInvoiceProjId));
+          #        if (element.custAccount())
+          #        {
+          #            projTable.CustAccount = element.custAccount();
+          #        }
+          #    }
+          #    else
+          #    {
+          #        projTable.Type = ProjTable::find(element.projId()).Type;
+          #    }
+          #
+          #    super();
+          #
+          #    if (isSubProject)
+          #    {
+          #        projTable.type().initFromParent(element.projId());
+          #        // TRI_023_NewProjectCreation_20142404 - kik- 5/6/2014 -->
+          #          //TRI_DimensionRefactoring, 25-Nov-2014, vam, BEGIN, ---->
+          #        //con = AxdDimensionUtil::getDimensionAttributeValueSetValue(projTable.DefaultDimension);
+          #        //if(conLen(con) > 0)
+          #        //{
+          #        //    i   = conFind(con, #ServiceLine);
+          #        //    if((i > 0) && (i < conLen(con)))
+          #        //        TRI_ServiceLineDimension.text(conPeek(con,i+1));
+          #        //}
+          #
+          #        dimValue_Branch = curext();
+          #        dimValue_ServiceLine = TRI_DimensionHelper::getTRI_DimValueServiceLineFromDefaultDim(projTable.DefaultDimension);
+          #        TRI_ServiceLineDimension.text(dimValue_ServiceLine);
+          #        // TRI_FDD_JSSAddendum_20151002 -->
+          #        TRI_ServiceLineGroupDimension.text(TRI_JSSFinancialDimRelation::find(dimValue_ServiceLine).JSSServiceLineGroup);
+          #        // CHG0038328 added by Crawford, Teresa 9/09/2021 Begin
+          #        TIS_BusinessGroup.text(TRI_JSSFinancialDimRelation::find(TRI_ServiceLineDimension.valueStr()).TIS_BusinessGroup);
+          #        // CHG0038328 added by Crawford, Teresa 9/09/2021 End
+          #        // TRI_FDD_JSSAddendum_20151002 <--
+          #        //TRI_DimensionRefactoring, 25-Nov-2014, vam, FINISH, <---
+          #        // <-- TRI_023_NewProjectCreation_20142404 - kik- 5/6/2014
+          #
+          #    }
+          #    // TRI_023_NewProjectCreation_20142404 - kik- 5/6/2014 -->
+          #    else
+          #    {
+          #        projTable.Header = NoYes::Yes;
+          #    }
+          #    // <-- TRI_023_NewProjectCreation_20142404 - kik- 5/6/2014
+          #
+          #    //CR 108 cannot open subproject for different cust sku -->
+          #    element.TRI_processDeliveryLocation(LogisticsLocation::find(ProjTable.DeliveryLocation).LocationId);
+          #    //CR 108 cannot open subproject for different cust sku --<
+          #
+          #    // Initializing the additonal date fields to blank values
+          #    projTable.ProjectedEndDate = dateNull();
+          #    projTable.ProjectedStartDate = dateNull();
+          #    projTable.ExtensionDate = dateNull();
+          #}
+        ENDSOURCE
+        SOURCE #create
+          #void create(boolean append = false)
+          #{
+          #    super(append);
+          #
+          #    if (projTable.ParentId)
+          #    {
+          #        projTable.formMethodDataSourceCreate(element,projTable_DS,projTable.ParentId);
+          #    }
+          #    else
+          #    {
+          #        element.numberSeqFormHandler().formMethodDataSourceCreate();
+          #    }
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  REFERENCEDATASOURCES
+  ENDREFERENCEDATASOURCES
+  
+  JOINS
+  ENDJOINS
+  
+  PARTREFERENCES
+  ENDPARTREFERENCES
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS53207
+      TitleDatasource     #ProjTable
+      Frame               #Dialog
+      WindowType          #Popup
+      HideToolbar         #Yes
+      BackgroundColor     #Window background
+      DataSource          #ProjTable
+      Style               #Dialog
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+          Left                #Auto (left)
+          ElementPosition     #1431655764
+          HierarchyParent     #BottomGroup
+          Style               #DialogCommitContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #BottomGroup
+          ElementPosition     #1431655764
+          BackStyle           #Opaque
+          Style               #DialogCommit
+          AlignChild          #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #EstimateProject
+          ConfigurationKey    #ProjAdvEstimate
+          ElementPosition     #1717986916
+          HierarchyParent     #ProjectOptions
+          FrameType           #None
+          HideIfEmpty         #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #FrameGroup
+          Width               #Column width
+          ElementPosition     #858993458
+          HierarchyParent     #ProjectOptions
+          FrameType           #None
+          DataSource          #ProjTable
+          HideIfEmpty         #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #Group1
+          ElementPosition     #1073741822
+          HierarchyParent     #ProjectContract
+          Columns             #2
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+            ENDARRAY
+          HideIfEmpty         #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #ProjectContract
+          ElementPosition     #1288490187
+          HierarchyParent     #ProjectOptions
+          FrameType           #None
+          HideIfEmpty         #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #ProjectOptions
+          Width               #Column width
+          ElementPosition     #1717986916
+          HierarchyParent     #TopGroup
+          FrameType           #None
+          HideIfEmpty         #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #ProjectTypes
+          Width               #Column width
+          ElementPosition     #1288490187
+          HierarchyParent     #TopGroup
+          FrameType           #None
+          DataSource          #ProjTable
+          HideIfEmpty         #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #TIS_AdditionalParam
+          ElementPosition     #2004318068
+          HierarchyParent     #ProjectOptions
+          Columns             #2
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #TopGroup
+          ElementPosition     #715827882
+          Style               #DialogContent
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #TRI_AdditionalParameters
+          AutoDeclaration     #Yes
+          Width               #Column width
+          ElementPosition     #1861152492
+          HierarchyParent     #ProjectOptions
+          DataSource          #ProjTable
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #ProjTable_TRI_SalesResponsible
+          Visible             #No
+          ElementPosition     #1869106136
+          HierarchyParent     #TRI_AdditionalParameters
+          DataSource          #ProjTable
+          ReferenceField      #TRI_SalesResponsible
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL CHECKBOX
+        PROPERTIES
+          Name                #NewEstimateProject
+          AutoDeclaration     #Yes
+          Visible             #No
+          Width               #Column width
+          HelpText            #@SYS321413
+          ConfigurationKey    #ProjAdvEstimate
+          ElementPosition     #858993458
+          HierarchyParent     #EstimateProject
+          Label               #@SYS321418
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #
+            #    controlId.enabled(this.checked());
+            #    projPeriodId.enabled(this.checked());
+            #
+            #    element.redraw();
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL CHECKBOX
+        PROPERTIES
+          Name                #ProjTable_TIS_IsPriority
+          ElementPosition     #1610612733
+          HierarchyParent     #TIS_AdditionalParam
+          DataSource          #ProjTable
+          DataField           #TIS_IsPriority
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL CHECKBOX
+        PROPERTIES
+          Name                #ProjTable_TRI_IsOutOfContract
+          ElementPosition     #1073741822
+          HierarchyParent     #TIS_AdditionalParam
+          DataSource          #ProjTable
+          DataField           #TRI_IsOutOfContract
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMBOBOX
+        PROPERTIES
+          Name                #projTable_Type
+          AutoDeclaration     #Yes
+          ElementPosition     #1431655764
+          HierarchyParent     #ProjectTypes
+          DataSource          #ProjTable
+          DataField           #Type
+          ComboType           #List
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #    // CHG0037264 added by Crawford, Teresa 6/17/2020 Begin
+            #    if (TIS_EnterpriseRequiredProjType::find(ProjTable.Type))
+            #        TIS_EnterpriseThemesID.mandatory(TRUE);
+            #    else
+            #        TIS_EnterpriseThemesID.mandatory(FALSE);
+            #    // CHG0037264 added by Crawford, Teresa 6/17/2020 End
+            #    // CHG0038328 added by Crawford, Teresa 5/12/2021 Begin
+            #    if (projtable_type.selection() == ProjType::FixedPrice || projtable_type.selection() == ProjType::TimeMaterial)
+            #        TIS_BusinessGroup.mandatory(true);
+            #    else
+            #        TIS_BusinessGroup.mandatory(false);
+            #    // CHG0038328  added by Crawford, Teresa 5/12/2021 End
+            #
+            #    return ret;
+            #
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #CancelCommandButton
+          ElementPosition     #1610612733
+          HierarchyParent     #ButtonGroup
+          SaveRecord          #No
+          Command             #264
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #OKCommandButton
+          AutoDeclaration     #Yes
+          ElementPosition     #1073741822
+          HierarchyParent     #ButtonGroup
+          DefaultButton       #Yes
+          SaveRecord          #No
+          Command             #263
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #clicked
+            #void clicked()
+            #{
+            #    boolean     callSuper   = true;
+            #    // chg0032914 Begin
+            #    ProjGroup               ProjGroup;
+            #    CustGroup               CustGroup;
+            #    // CHG0032914 End
+            #    // TIS_CHG0034753 TLC Warning if time and material and fixed price Begin
+            #    DialogButton            diagBut;
+            #    str                     strMessage = "@TIS600";
+            #    str                     strTitle = "@SYS103056";
+            #
+            #    // TIS_CHG0034753 TLC Warning if time and material and fixed price End
+            #    if(ProjInvoiceTable::find(ProjInvoiceId.text()).TIS_Status==TIS_StatusChange::InActive)
+            #                         throw error('The Selected Project Contract Id is InActive.');
+            #
+            #    if (!projTable.ProjId || !projTable.ProjGroupId || (!projTable.ProjInvoiceProjId && (projTable.Type == ProjType::FixedPrice || projTable.Type == ProjType::TimeMaterial)))
+            #    {
+            #        throw error("@SYS37918");
+            #    }
+            #    // TIS_CHG0034753 TLC Warning if time and material and fixed price Begin
+            #    if (!tis_salesopportunityid.text() && (projTable.Type == ProjType::FixedPrice || projTable.Type == ProjType::TimeMaterial))
+            #    {
+            #         diagBut = Box::yesNo(
+            #            strMessage,
+            #            DialogButton::No, // Initial focus is on the No button.
+            #            strTitle);
+            #        if (diagBut == DialogButton::No)
+            #            {
+            #                return;
+            #            }
+            #
+            #
+            #
+            #
+            #    }
+            #   // TIS_CHG0034753 TLC Warning if time and material and fixed price end
+            #    // CHG0032914 Begin
+            #    // select the funding source
+            #
+            #     custgroup = CustGroup::find(CustTable::find( projfundingsource::findCustAccount(ProjTable.projinvoiceprojid).CustAccount).CustGroup);
+            #    // Determine if we need to check for
+            #    // Locate Fixed Price Group.
+            #    if(custgroup.TRI_FixedProjGroup != "" || CustGroup.TRI_TMProjGroup !="")
+            #    {
+            #        if(CustGroup.TRI_FixedProjGroup)
+            #            select * from Projgroup where CustGroup.TRI_FixedProjGroup == ProjGroup.ProjGroupId;
+            #
+            #
+            #    // Locate the Time and material group
+            #        if(CustGroup.TRI_TMProjGroup)
+            #        select * from projgroup where CustGroup.TRI_TMProjGroup == ProjGroup.ProjGroupId;
+            #
+            #    if (projgroup && ProjTable.type  != ProjGroup.projType)
+            #        {
+            #        info (strfmt("@TIS63",ProjTable.type));
+            #          throw error("@SYS126768");
+            #        }
+            #
+            #    }
+            #    // CHG0032914 END
+            #
+            #    //TRI_CR127_ProjectRequiredFields_02152016 added by OKA 2/19/2016 Begin
+            #    //This is unnecessary code. First we have done that this field mandatory on form and second our FDD is later.
+            #    //PS: Why the same code specify two time?
+            #    /*
+            #    // TRI_FDD_JSSAddendum_20151302 -->
+            #    if (isSubProject && !TRI_ServiceLineDimension.valueStr())
+            #    {
+            #        throw error("@SAG840");
+            #    }
+            #    // TRI_FDD_JSSAddendum_20151302 <--
+            #
+            #    // TRI_FDD_JSSAddendum_20151302 -->
+            #    if (isSubProject && !TRI_ServiceLineDimension.valueStr())
+            #    {
+            #        throw error("@SAG840");
+            #    }
+            #    // TRI_FDD_JSSAddendum_20151302 <--
+            #    */
+            #    //TRI_CR127_ProjectRequiredFields_02152016 added by OKA 2/19/2016 End
+            #    if (callSuper)
+            #    {
+            #        super();
+            #    }
+            #
+            #    if (isConfigurationkeyEnabled(configurationKeyNum(Project3)) &&
+            #        projTable.Type == ProjType::TimeMaterial && projTable.ParentId)
+            #    {
+            #        projTableType.copyPwpSetting(projTable);
+            #    }
+            #
+            #
+            #
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL MENUITEMBUTTON
+        PROPERTIES
+          Name                #NewProjectContract
+          AutoDeclaration     #Yes
+          Left                #Right edge
+          ElementPosition     #1610612734
+          HierarchyParent     #Group1
+          SaveRecord          #No
+          MenuItemName        #ProjInvoiceTableCreate
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STATICTEXT
+        PROPERTIES
+          Name                #NewProjectText
+          ElementPosition     #858993458
+          HierarchyParent     #TopGroup
+          Text                #@SYS50124
+          Style               #MainInstruction
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #controlId
+          AutoDeclaration     #Yes
+          Visible             #No
+          Width               #Column width
+          ConfigurationKey    #ProjAdvEstimate
+          ElementPosition     #1288490187
+          HierarchyParent     #EstimateProject
+          ExtendedDataType    
+            ARRAY 
+              #ProjControlId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #validate
+            #public boolean validate()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #
+            #    if (ret && !ProjControl::exist(controlId.text()))
+            #        ret = checkFailed(strFmt("@SYS76877",controlId.text()));
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #CtrlProjId
+          AutoDeclaration     #Yes
+          Width               #Column width
+          ElementPosition     #858993458
+          HierarchyParent     #FrameGroup
+          LookupButton        #Never
+          DataSource          #ProjTable
+          DataField           #ProjId
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #CustAccount
+          AutoDeclaration     #Yes
+          Width               #Column width
+          ElementPosition     #1610612734
+          HierarchyParent     #ProjectContract
+          Label               #@SYS302
+          DataSource          #ProjTable
+          DataField           #CustAccount
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #     // CHG0038640 added by Crawford, Teresa 8/03/2021 Begin
+            #    tis_salesRepname.text(element.findSalesRep(ProjTable));
+            #    // CHG0038640 added by Crawford, Teresa 8/03/2021 End
+            #    return ret;
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #Name
+          Width               #Column width
+          ElementPosition     #1288490187
+          HierarchyParent     #FrameGroup
+          DataSource          #ProjTable
+          DataField           #Name
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #ProjInvoiceId
+          AutoDeclaration     #Yes
+          ElementPosition     #1073741822
+          HierarchyParent     #Group1
+          DataSource          #ProjTable
+          DataField           #ProjInvoiceProjId
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #lookup
+            #public void lookup()
+            #{
+            #    SysTableLookup              sysTableLookup;
+            #    Query                   query = new Query();
+            #    QueryBuildDataSource    qbds;
+            #    sysTableLookup = SysTableLookup::newParameters(tableNum(ProjInvoiceTable), this);
+            #
+            #    qbds= query.addDataSource( tableNum(ProjInvoiceTable));
+            #    sysTableLookup.parmQuery(query);
+            #    //Added by Kavitha , CHG0036042 -Begin
+            #    if (TIS_DeploymentActivation::find('CHG0036042').Status == noYes::Yes)
+            #    {
+            #    qbds.addRange(fieldNum(ProjInvoiceTable,TIS_Status)).value(SysQuery::valueNot(enum2str(TIS_StatusChange::InActive)));
+            #    sysTableLookup.addLookupfield(fieldNum(ProjInvoiceTable, ProjInvoiceProjId));
+            #    sysTableLookup.addLookupfield(fieldNum(ProjInvoiceTable, Description));
+            #    if (isConfigurationkeyEnabled(configurationKeyNum(Project3)))
+            #    {
+            #        sysTableLookup.addLookupMethod(tableMethodStr(ProjInvoiceTable, fundingSourceName));
+            #        sysTableLookup.setLabel("@SYS27874");
+            #    }
+            #
+            #    sysTableLookup.performFormLookup();
+            #    }
+            #    else
+            #    {
+            #       sysTableLookup.addLookupfield(fieldNum(ProjInvoiceTable, Description));
+            #    if (isConfigurationkeyEnabled(configurationKeyNum(Project3)))
+            #    {
+            #        sysTableLookup.addLookupMethod(tableMethodStr(ProjInvoiceTable, fundingSourceName));
+            #        sysTableLookup.setLabel("@SYS27874");
+            #    }
+            #    }//Added by Kavitha , CHG0036042 -End
+            #}
+            #
+          ENDSOURCE
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #    element.setProjInvoiceProjId(this.valueStr()); //TRI_059 Extended Proj Price, proj address lookup, vam, 22-Dec-2014
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #projPeriodId
+          AutoDeclaration     #Yes
+          Visible             #No
+          Width               #Column width
+          ConfigurationKey    #ProjAdvEstimate
+          ElementPosition     #1717986916
+          HierarchyParent     #EstimateProject
+          ExtendedDataType    
+            ARRAY 
+              #ProjPeriodId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #validate
+            #public boolean validate()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #
+            #    if (ret && !ProjPeriodTable::exist(projPeriodId.text()))
+            #        ret = checkFailed(strFmt("@SYS76877",projPeriodId.text()));
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #ProjTable_ProjGroupId
+          AutoDeclaration     #Yes
+          Width               #Column width
+          ElementPosition     #1717986916
+          HierarchyParent     #FrameGroup
+          DataSource          #ProjTable
+          DataField           #ProjGroupId
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #lookup
+            #void lookup()
+            #{
+            #    DictEnum            dictEnum=new DictEnum(enumNum(ProjGroupType));
+            #    ConfigurationKeyId  configKey;
+            #    // CHG0032914 Begin
+            #    CustAccount         hcustAccount;
+            #
+            #    // CHJG0032914 End
+            #
+            #    configKey=dictEnum.value2ConfigurationKey(projTable_Type.selection());
+            #    if (isConfigurationkeyEnabled(configKey))
+            #    {
+            #        // CHG0032914 Begin need to hold delivery customer account
+            #        hcustAccount = ProjTable.custaccount;
+            #        // CHG0032914 End
+            #        //<TIS_DR299_ProjInterCompanyBillingSetup>
+            #        //ProjGroup::lookupGroup(this,projTable.Type);
+            #        // CHG0032914 - Need to move Projfunding source to ProjTable.Begin
+            #        projTable.custAccount = projfundingsource::findCustAccount(ProjTable.projinvoiceprojid).CustAccount;
+            #
+            #        // CHG0032914 - END
+            #        ProjGroup::tisLookupGroup(this,projTable.Type, projTable);
+            #      // CHG0032914 Begin
+            #        ProjTable.custaccount = hcustAccount;
+            #        // CHG0032914 End
+            #        //</TIS_DR299_ProjInterCompanyBillingSetup>
+            #    }
+            #}
+          ENDSOURCE
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #
+            #    projTable.CheckBudget = projTable.projGroup().CheckBudget;
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #ProjTable_TRI_JobType
+          Width               #Column width
+          ElementPosition     #1784598677
+          HierarchyParent     #TRI_AdditionalParameters
+          DataSource          #ProjTable
+          DataField           #TRI_JobType
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #    // CHG0038640 added by Crawford, Teresa 8/03/2021 Begin
+            #    tis_salesRepname.text(element.findSalesRep(ProjTable));
+            #    // CHG0038640 added by Crawford, Teresa 8/03/2021 End
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #ProjTable_TRI_Location
+          AutoDeclaration     #Yes
+          Width               #Column width
+          ElementPosition     #715827882
+          HierarchyParent     #TRI_AdditionalParameters
+          ExtendedDataType    
+            ARRAY 
+              #TRI_ProjLocationId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #lookup
+            #//TRI_023_NewProjectCreation
+            #public void lookup()
+            #{
+            #    //TRI_059 Extended Proj Price, proj address lookup, vam, 12-Dec-2014
+            #    TRI_PriceHelper::lookupProjDeliveryAddress(this,ProjTable.CustAccount,ProjTable.ProjId);
+            #
+            #}
+          ENDSOURCE
+          SOURCE #modified
+            #//TRI_023_NewProjectCreation
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #
+            #    if (ret)
+            #    {
+            #        element.TRI_processDeliveryLocation();
+            #        //ProjTable.tri_setLocation(this.valueStr());
+            #    }
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #TIS_BusinessGroup
+          AutoDeclaration     #Yes
+          Width               #Column width
+          ElementPosition     #1675236084
+          HierarchyParent     #TRI_AdditionalParameters
+          Label               #@TIS3147
+          ExtendedDataType    
+            ARRAY 
+              #DimensionValue
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #lookup
+            #public void lookup()
+            #{
+            #    TRI_DimensionHelper::lookupBusinessGroup(this); //TRI_DimensionRefactoring, vam, 25-Nov-2014
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #TIS_EnterpriseThemesID
+          AutoDeclaration     #Yes
+          ElementPosition     #2028178999
+          HierarchyParent     #TRI_AdditionalParameters
+          DataSource          #ProjTable
+          DataField           #TIS_EnterpriseThemesID
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #TIS_SalesOpportunityID
+          AutoDeclaration     #Yes
+          ElementPosition     #1073741822
+          HierarchyParent     #FrameGroup
+          DataSource          #ProjTable
+          DataField           #TIS_OpportunityID
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #lookup
+            #public void lookup()
+            #{
+            #
+            #
+            #
+            #        Query query = new Query();
+            #        QueryBuildDataSource queryBuildDataSource;
+            #        QueryBuildRange queryBuildRange;
+            #
+            #        SysTableLookup sysTableLookup = SysTableLookup::newParameters(tableNum(TIS_SalesOpportunityTable), this);
+            #
+            #        sysTableLookup.addLookupField(fieldNum(TIS_SalesOpportunityTable, TIS_OppID));
+            #     // CHG0036362 added by Crawford, Teresa 11/12/2019 Begin
+            #        sysTableLookup.addLookupField(fieldNum(TIS_SalesOpportunityTable, TIS_QuoteNumber));
+            #        // CHG0036362 added by Crawford, Teresa 11/12/2019 End
+            #        sysTableLookup.addLookupField(fieldNum(TIS_SalesOpportunityTable, TIS_OppName));
+            #        sysTableLookup.addLookupField(fieldNum(TIS_SalesOpportunityTable, Branch));
+            #        sysTableLookup.addLookupField(fieldNum(TIS_SalesOpportunityTable, TIS_OppCustName));
+            #        sysTableLookup.addLookupField(fieldNum(TIS_SalesOpportunityTable, OppEmployee_ID));
+            #        sysTableLookup.addLookupField(fieldNum(TIS_SalesOpportunityTable, OppEmployeeName));
+            #        sysTableLookup.addLookupField(fieldNum(TIS_SalesOpportunityTable, TIS_OppDistrict));
+            #        // CHG0036362 added by Crawford, Teresa 10/24/2019 Begin
+            #        sysTableLookup.addLookupField(fieldNum(TIS_SalesOpportunityTable,projId));
+            #        sysTableLookup.addLookupField(fieldNum(TIS_SalesOpportunityTable, Status));
+            #
+            #        // CHG0036362 added by Crawford, Teresa 10/24/2019 End
+            #
+            #        queryBuildDataSource = query.addDataSource(tableNum(TIS_SalesOpportunityTable));
+            #
+            #        queryBuildRange = queryBuildDataSource.addRange(fieldNum(TIS_SalesOpportunityTable, Branch));
+            #        queryBuildRange.value(curext());
+            #
+            #
+            #
+            #        sysTableLookup.parmQuery(query);
+            #
+            #        sysTableLookup.performFormLookup();
+            #
+            #
+            #
+            #    //super();
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #TIS_SalesRepName
+          AutoDeclaration     #Yes
+          AllowEdit           #No
+          ElementPosition     #1948642567
+          HierarchyParent     #TRI_AdditionalParameters
+          Label               #@TRI948
+          ExtendedDataType    
+            ARRAY 
+              #Name
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #TRI_HomeBranch
+          AutoDeclaration     #Yes
+          AllowEdit           #No
+          Width               #Column width
+          ElementPosition     #1073741823
+          HierarchyParent     #TRI_AdditionalParameters
+          Label               #@SYS84781
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #TRI_ServiceLineDimension
+          AutoDeclaration     #Yes
+          Width               #Column width
+          ElementPosition     #1431655764
+          HierarchyParent     #TRI_AdditionalParameters
+          Label               #@SYS35058
+          ExtendedDataType    
+            ARRAY 
+              #DimensionValue
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #lookup
+            #public void lookup()
+            #{
+            #    TRI_DimensionHelper::lookupServiceLine(this); //TRI_DimensionRefactoring, vam, 25-Nov-2014
+            #}
+          ENDSOURCE
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean   ret;
+            #    str         ServiceLinevalue;
+            #    str         ServiceLinegroupValue;
+            #
+            #    TRI_PriceGroupDiscServiceLineDim serviceLineDim = TRI_DimensionHelper::getTRI_DimNameServiceLine();
+            #    ret = super();
+            #    // CHG0038640 added by Crawford, Teresa 8/17/2021 Begin
+            #    serviceLinegroupvalue = TRI_DimensionHelper::getTRI_DimNameServiceLineGroup();
+            #    // CHG0038640 added by Crawford, Teresa 8/17/2021 End
+            #    // TRI_FDD_JSSAddendum_20151002 -->
+            #    if (!element.isValidDimension(this.valueStr(),serviceLineDim))
+            #    {
+            #        TRI_ServiceLineDimension.text(" ");
+            #        warning("@SAG838");
+            #        return true;
+            #    }
+            #    if (!element.isSuspended(this.valueStr(),serviceLineDim))
+            #    {
+            #        ServiceLinevalue = this.valueStr();
+            #        TRI_ServiceLineDimension.text(" ");
+            #        warning(strFmt('Service Line %1 is suspended',ServiceLinevalue));
+            #        return true;
+            #    }
+            #    if (!element.isActive(this.valueStr(),serviceLineDim))
+            #    {
+            #        ServiceLinevalue = this.valueStr();
+            #        TRI_ServiceLineDimension.text(" ");
+            #        warning(strFmt('Service Line %1 is not active',ServiceLinevalue));
+            #        return true;
+            #    }
+            #
+            #    TRI_ServiceLineGroupDimension.text(TRI_JSSFinancialDimRelation::find(this.valueStr()).JSSServiceLineGroup);
+            #    // CHG0038328 added by Crawford, Teresa 5/12/2021 Begin
+            #    TIS_BusinessGroup.text(TRI_JSSFinancialDimRelation::find(this.valueStr()).TIS_BusinessGroup);
+            #    // CHG0038328 added by Crawford, Teresa 5/12/2021 End
+            #    if (!TRI_JSSFinancialDimRelation::find(this.valueStr()).JSSServiceLineGroup)
+            #    {
+            #        ServiceLinevalue = this.valueStr();
+            #        TRI_ServiceLineDimension.text(" ");
+            #        warning("@TRI20490");
+            #        return true;
+            #    }
+            #
+            #
+            #    // TRI_FDD_JSSAddendum_20151002 <--
+            #
+            #    //TRI_DimensionRefactoring, vam, 25-Nov-2014, BEGIN, ---->
+            #    //con =  [1, ProjParameters::find().TRI_CommissServiceLineDim, this.valueStr()];
+            #    //dimensionDefault =  AxdDimensionUtil::getDimensionAttributeValueSetId(con);
+            #    //ProjTable.DefaultDimension = dimensionDefault;
+            #    ProjTable.DefaultDimension = TRI_DimensionHelper::getNewDefaultDimension(ProjTable.DefaultDimension, this.valueStr(), serviceLineDim);
+            #    //TRI_DimensionRefactoring, vam, 25-Nov-2014, FINISH, <----
+            #     // CHG0038640 added by Crawford, Teresa 8/03/2021 Begin
+            #     ProjTable.DefaultDimension = TRI_DimensionHelper::getNewDefaultDimension(ProjTable.DefaultDimension, TRI_serviceLinegroupDimension.valueStr(), serviceLinegroupvalue);
+            #    tis_salesRepname.text(element.findSalesRep(ProjTable));
+            #    // CHG0038640 added by Crawford, Teresa 8/03/2021 End
+            #
+            #    return ret;
+            #
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #TRI_ServiceLineGroupDimension
+          AutoDeclaration     #Yes
+          AllowEdit           #No
+          NeededPermission    #Manual
+          Width               #Column width
+          ElementPosition     #1565873491
+          HierarchyParent     #TRI_AdditionalParameters
+          Label               #@SAG826
+          ExtendedDataType    
+            ARRAY 
+              #DimensionValue
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #lookup
+            #public void lookup()
+            #{
+            #    //TRI_FDD_JSS_Addendum, 03-Feb-2015
+            #    TRI_DimensionHelper::lookupServiceLineGroup(this);
+            #    //TRI_FDD_JSS_Addendum, 03-Feb-2015
+            #}
+          ENDSOURCE
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #     // CHG0038640 added by Crawford, Teresa 8/03/2021 Begin
+            #    tis_salesRepname.text(element.findSalesRep(ProjTable));
+            #    // CHG0038640 added by Crawford, Teresa 8/03/2021 End
+            #    return ret;
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+  PERMISSIONS #Permissions
+    PROPERTIES
+    ENDPROPERTIES
+    
+    PERMISSIONSET #Read
+      PROPERTIES
+      ENDPROPERTIES
+      
+      FORM #Controls
+      ENDFORM
+      
+    TABLES #Tables
+    ENDTABLES
+    
+  SERVERMETHODS #Server Methods
+  ENDSERVERMETHODS
+  
+ASSOCIATEDFORMS #Associated Forms
+ENDASSOCIATEDFORMS
+
+ENDPERMISSIONSET
+
+PERMISSIONSET #Update
+  PROPERTIES
+  ENDPROPERTIES
+  
+  FORM #Controls
+  ENDFORM
+  
+TABLES #Tables
+ENDTABLES
+
+SERVERMETHODS #Server Methods
+ENDSERVERMETHODS
+
+ASSOCIATEDFORMS #Associated Forms
+ENDASSOCIATEDFORMS
+
+ENDPERMISSIONSET
+
+PERMISSIONSET #Create
+  PROPERTIES
+  ENDPROPERTIES
+  
+  FORM #Controls
+  ENDFORM
+  
+TABLES #Tables
+ENDTABLES
+
+SERVERMETHODS #Server Methods
+ENDSERVERMETHODS
+
+ASSOCIATEDFORMS #Associated Forms
+ENDASSOCIATEDFORMS
+
+ENDPERMISSIONSET
+
+PERMISSIONSET #Delete
+  PROPERTIES
+  ENDPROPERTIES
+  
+  FORM #Controls
+    CONTROL #TRI_ServiceLineGroupDimension
+      PROPERTIES
+        Control             #TRI_ServiceLineGroupDimension
+        EffectiveAccess     #Create
+      ENDPROPERTIES
+      
+    ENDCONTROL
+    
+ENDFORM
+
+TABLES #Tables
+ENDTABLES
+
+SERVERMETHODS #Server Methods
+ENDSERVERMETHODS
+
+ASSOCIATEDFORMS #Associated Forms
+ENDASSOCIATEDFORMS
+
+ENDPERMISSIONSET
+
+ENDPERMISSIONS
+
+ENDFORM
+
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : Project1 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #Project1
+  SHARED
+  PROPERTIES
+    Name                #Project1
+    Origin              #{6B20FB51-AFE8-4E0A-AA91-14BC4481571C}
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    GROUP #Object1
+      PROPERTIES
+        Name                #Object1
+        ProjectGroupType    #All
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 45
+      UTILOBJECTID 1034703
+      NODETYPE 329
+      NAME #TRI_DimensionHelper
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 44
+      UTILOBJECTID 109131
+      NODETYPE 204
+      NAME #TIS_SalesRepAssignmentTable
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 11
+      UTILOBJECTID 0
+      NODETYPE 201
+      NAME #ProjTableCreate
+    ENDNODE
+  ENDPROJECT
+  
+
+***Element: END
